@@ -188,8 +188,16 @@ function kompilacja() {
                        } fi
 		;;
             	"Sprawdzić dostępne kernele z kernel.org")
+			echo "Podaj numer wersji którą mam sprawdzić np. 5.9"
+			read numer
 			curl https://mirrors.edge.kernel.org/pub/linux/kernel/v5.x/ 2>&1 | grep -o -E 'href="([^"#]+)"' | cut -d'"' -f2 > kernele.txt		
-			cat kernele.txt | grep linux
+			cat kernele.txt | grep linux-$numer > linux-$numer.txt
+			echo "UWAGA wynik otwieram w edytorze Vim !"
+			echo "UWAGA aby wyjść wpisz :q i naduś ENTER"
+			sleep 3
+			vim linux-$numer.txt
+			clear
+			echo "Zakończyłem sprawdzanie"
 		;;
 		"Wyjście")
 			clear
