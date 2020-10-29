@@ -51,11 +51,15 @@ function curl_gpg_sudo_exist() {
 	if ! [ -x "$(command -v curl)" ]; then {
   		echo 'UWAGA curl nie jest zainstalowany !' >&2
 		exit 1
-    }
+    	}
 	elif ! [ -x "$(command -v gpg)" ]; then {
 		echo 'UWAGA gpg nie jest zainstalowane !' >&2
-       	exit 1
-    } fi	       
+       		exit 1
+    	}  
+	elif ! [ -x "$(command -v sudo)" ]; then {
+		echo 'UWAGA gpg nie jest zainstalowane !' >&2
+		exit 1
+	} fi
 }
 
 function pauza() {	
