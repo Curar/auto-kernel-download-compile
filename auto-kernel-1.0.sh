@@ -188,7 +188,9 @@ function kompilacja() {
                        } fi
 		;;
             	"Sprawdzić dostępne kernele z kernel.org")
-            	;;
+			curl https://mirrors.edge.kernel.org/pub/linux/kernel/v5.x/ 2>&1 | grep -o -E 'href="([^"#]+)"' | cut -d'"' -f2 > kernele.txt		
+			cat kernele.txt | grep linux
+		;;
 		"Wyjście")
 			clear
 			exit 1
