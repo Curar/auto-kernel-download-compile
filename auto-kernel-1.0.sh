@@ -57,7 +57,7 @@ function curl_gpg_sudo_exist() {
        		exit 1
     	}  
 	elif ! [ -x "$(command -v sudo)" ]; then {
-		echo 'UWAGA gpg nie jest zainstalowane !' >&2
+		echo 'UWAGA sudo nie jest zainstalowane !' >&2
 		exit 1
 	} fi
 }
@@ -76,6 +76,24 @@ function rdzenie() {
         sleep 3	
 	fi
 }
+
+function kompilacja() {
+	[ ! -d $KERNEL_D ] && { tar xavf linux-${KERNEL}.tar.xz;}
+	cd linux-${KERNEL}
+	echo -e "\e[32m===========================================\e[0m"
+	echo -e "\e[32m=  Wgrywam domyślną konfigurację kernela  =\e[0m"
+	echo -e "\e[32m===========================================\e[0m"
+	sleep 3	
+	make localmodconfig	
+	make menuconfig
+	make clean
+	echo -e "\e[32m============================\e[0m"
+	echo -e "\e[32m=  Rozpoczynam kompilację  =\e[0m"
+	echo -e "\e[32m============================\e[0m"
+	sleep 3	
+	make -j ${RDZENIE}                            	
+}
+
 # Głowny rdzeń skryptu
     while :
     do {
@@ -93,7 +111,47 @@ function rdzenie() {
 		case $opcja in
 		"Pobrać tylko wskazane źródło kernela") 	
 			echo -e "\e[32mPracujesz jako :\e[0m"; whoami 
-                	echo -e "\e[33mPodaj wersję kernela którą mam skompilować np.: 5.9.2\e[0m"
+                	echo -e "\e[33mPodaj wersję kernela którą mam pobrać np.: 5.9.2\e[0m"
+                	read KERNEL
+                	zmienne;
+                	rdzenie;
+                        if [ ! -e "$KERNEL_EXIST" ] && [ ! -e "$KERNEL_SIGN" ]; then {
+		         	if curl --output /dev/null --silent --head --fail "$ADRES_KERNELA"; then {
+			                echo -e "\e[32m Kernel istnieje : $ADRES_KERNELA , pobieram :\e[0m"
+			                sleep 3			
+			                curl --compressed --progress-bar -o "$KERNEL_EXIST" "$ADRES_KERNELA"
+			                curl --compressed --progress-bar -o "$KERNEL_SIGN" "$ADRES_PODPISU"
+			                clear
+                            		curl_gpg_sudo_exist;
+                            		echo "Pobierma klucze GPG"
+	                        	gpg --locate-keys torvalds@kernel.org gregkh@kernel.org
+	                        	unxz -c linux-${KERNEL}.tar.xz | gpg --verify linux-${KERNEL}.tar.sign -
+	                            		if [ $? -eq 0 ]; then {
+                                    		echo -e "\e[32m=====================\e[0m"
+                                    		echo -e "\e[32m=  Podpis poprawny  =\e[0m"
+                                    		echo -e "\e[32m=====================\e[0m"	
+                                   	 	sleep 3
+						echo -e "\e[33m ::: KERNEL POBRANY: linux-${KERNEL}.tar.xz :::\e[0m"	
+                                		} else {
+    		                        	echo "Problem z podpisem : linux-${KERNEL}.tar.xz"
+                                		} fi
+                            	}
+		                else {
+  			             echo "Kernel nie istnieje : $ADRES_KERNELA"
+			             exit
+                            	} fi
+                        }
+	                else {
+	                     echo -e "\e[32m===========================\e[0m"
+	                     echo -e "\e[32m= Kernel jest już pobrany =\e[0m"
+	                     echo -e "\e[32m===========================\e[0m"
+			     echo -e "\e[33m ::: KERNEL POBRANY: linux-${KERNEL}.tar.xz :::\e[0m"	
+			     sleep 3
+                        } fi
+			;;
+            		"Pobrać i skompilować wskazane źródło")	
+			echo -e "\e[32mPracujesz jako :\e[0m"; whoami 
+                	echo -e "\e[33mPodaj wersję kernela którą mam pobrać i skompilować np.: 5.9.2\e[0m"
                 	read KERNEL
                 	zmienne;
                 	rdzenie;
@@ -116,21 +174,19 @@ function rdzenie() {
                                 		} else {
     		                        	echo "Problem z podpisem : linux-${KERNEL}.tar.xz"
                                 		} fi
-                            	}
-		                else {
+					kompilacja;
+				} else {
   			             echo "Kernel nie istnieje : $ADRES_KERNELA"
 			             exit
                             	} fi
-                        }
-	                else {
-	                     echo -e "\e[32m===========================\e[0m"
-	                     echo -e "\e[32m= Kernel jest już pobrany =\e[0m"
-	                     echo -e "\e[32m===========================\e[0m"
-	                     sleep 3
-                        } fi
-			;;
-            	"Pobrać i skompilować wskazane źródło")
-            	;;
+                        } else {
+	                 	echo -e "\e[32m===========================\e[0m"
+	                  	echo -e "\e[32m= Kernel jest już pobrany =\e[0m"
+	                   	echo -e "\e[32m===========================\e[0m"
+	                    	sleep 3
+				kompilacja;
+                       } fi
+		;;
             	"Sprawdzić dostępne kernele z kernel.org")
             	;;
 		"Wyjście")
