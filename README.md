@@ -4,5 +4,6 @@
 ####
 ![Terminal2](/image/terminal-2.png)
 #### Script installation :
-`git clone https://github.com/curar/auto-kernel-download-compile.git
- sh ./auto-kernel-1.0.sh`
+`git clone https://github.com/curar/auto-kernel-download-compile.git`
+#### Turning on :
+`sh ./auto-kernel-1.0.sh`
