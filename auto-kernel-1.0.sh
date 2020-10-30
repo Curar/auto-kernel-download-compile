@@ -114,7 +114,6 @@ function kompilacja() {
                 	echo -e "\e[33mPodaj wersję kernela którą mam pobrać np.: 5.9.2\e[0m"
                 	read KERNEL
                 	zmienne;
-                	rdzenie;
                         if [ ! -e "$KERNEL_EXIST" ] && [ ! -e "$KERNEL_SIGN" ]; then {
 		         	if curl --output /dev/null --silent --head --fail "$ADRES_KERNELA"; then {
 			                echo -e "\e[32m Kernel istnieje : $ADRES_KERNELA , pobieram :\e[0m"
