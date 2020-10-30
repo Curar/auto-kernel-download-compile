@@ -47,7 +47,7 @@ ADRES_PODPISU="https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-${KERNEL}.tar.
 }
 
 # Definicja funkcji używanych w skrypcie
-function curl_gpg_sudo_exist() {
+function curl_gpg_tar_exist() {
 	if ! [ -x "$(command -v curl)" ]; then {
   		echo 'UWAGA curl nie jest zainstalowany !' >&2
 		exit 1
@@ -56,8 +56,8 @@ function curl_gpg_sudo_exist() {
 		echo 'UWAGA gpg nie jest zainstalowane !' >&2
        		exit 1
     	}  
-	elif ! [ -x "$(command -v sudo)" ]; then {
-		echo 'UWAGA sudo nie jest zainstalowane !' >&2
+	elif ! [ -x "$(command -v tar)" ]; then {
+		echo 'UWAGA tar nie jest zainstalowane !' >&2
 		exit 1
 	} fi
 }
@@ -121,7 +121,7 @@ function kompilacja() {
 			                curl --compressed --progress-bar -o "$KERNEL_EXIST" "$ADRES_KERNELA"
 			                curl --compressed --progress-bar -o "$KERNEL_SIGN" "$ADRES_PODPISU"
 			                clear
-                            		curl_gpg_sudo_exist;
+                            		curl_gpg_tar_exist;
                             		echo "Pobierma klucze GPG"
 	                        	gpg --locate-keys torvalds@kernel.org gregkh@kernel.org
 	                        	unxz -c linux-${KERNEL}.tar.xz | gpg --verify linux-${KERNEL}.tar.sign -
@@ -161,7 +161,7 @@ function kompilacja() {
 			                curl --compressed --progress-bar -o "$KERNEL_EXIST" "$ADRES_KERNELA"
 			                curl --compressed --progress-bar -o "$KERNEL_SIGN" "$ADRES_PODPISU"
 			                clear
-                            		curl_gpg_sudo_exist;
+                            		curl_gpg_tar_exist;
                             		echo "Pobierma klucze GPG"
 	                        	gpg --locate-keys torvalds@kernel.org gregkh@kernel.org
 	                        	unxz -c linux-${KERNEL}.tar.xz | gpg --verify linux-${KERNEL}.tar.sign -
