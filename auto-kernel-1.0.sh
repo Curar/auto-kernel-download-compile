@@ -191,7 +191,7 @@ function kompilacja() {
 			echo "Podaj numer wersji którą mam sprawdzić np. 5.9"
 			read numer
 			curl https://cdn.kernel.org/pub/linux/kernel/v5.x/ 2>&1 | grep -o -E 'href="([^"#]+)"' | cut -d'"' -f2 > kernele.txt		
-			cat kernele.txt | grep linux-$numer > linux-$numer.txt
+			awk '/linux-'$numer'[^a-z]+.tar.xz/' kernele.txt > linux-$numer.txt
 			echo "UWAGA wynik otwieram w edytorze Vim !"
 			echo "UWAGA aby wyjść wpisz :q i naduś ENTER"
 			sleep 3
