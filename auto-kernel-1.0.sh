@@ -90,9 +90,14 @@ function kompilacja() {
 	echo -e "\e[32m===========================================\e[0m"
 	pwd
 	sleep 3	
-	make clean
-	make localmodconfig	
-	make menuconfig
+	make localmodconfig
+	echo -e "\e[33mCzy wejść w opcje konfiguracyjne kernela (make menuconfig)\e[0m"
+	read -r -p "Press Y or N" wybory	
+		if [[ "$wybory" =~ ^([yY][eE][sS]|[yY])$ ]]; then {
+		make menuconfig
+		} else {
+		echo -e "\e[33mKontynuuje z domyślną konfiguracją\e[0m"
+		} fi
 	make clean
 	echo -e "\e[32m============================\e[0m"
 	echo -e "\e[32m=  Rozpoczynam kompilację  =\e[0m"
