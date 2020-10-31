@@ -98,7 +98,7 @@ function kompilacja() {
 		} else {
 		echo -e "\e[33mKontynuuje z domyślną konfiguracją\e[0m"
 		} fi
-	make clean
+	make -j $RDZENIE clean
 	echo -e "\e[32m============================\e[0m"
 	echo -e "\e[32m=  Rozpoczynam kompilację  =\e[0m"
 	echo -e "\e[32m============================\e[0m"
