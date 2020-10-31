@@ -195,10 +195,11 @@ function kompilacja() {
 			echo "UWAGA wynik otwieram w edytorze Vim !"
 			echo "UWAGA aby wyjść wpisz :q i naduś ENTER"
 			sleep 3
-			if [ ! `grep linux-$numer linux-$numer.txt` ]; then {
+			if [[ ! `grep linux-$numer linux-$numer.txt` ]]; then {
 				echo "Brak kerneli na stronie https://kernel.org !"
 			} else {
-				vim linux-$numer.txt
+				sort linux-$numer.txt | more
+				read -p "Press ENTER"
 				clear
 			} fi
 			echo "Zakończyłem sprawdzanie"
