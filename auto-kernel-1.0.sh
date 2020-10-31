@@ -192,9 +192,6 @@ function kompilacja() {
 			read numer
 			curl https://cdn.kernel.org/pub/linux/kernel/v5.x/ 2>&1 | grep -o -E 'href="([^"#]+)"' | cut -d'"' -f2 > kernele.txt		
 			awk '/linux-'$numer'[^a-z]+.tar.xz/' kernele.txt > linux-$numer.txt
-			echo "UWAGA wynik otwieram w edytorze Vim !"
-			echo "UWAGA aby wyjść wpisz :q i naduś ENTER"
-			sleep 3
 			if [[ ! `grep linux-$numer linux-$numer.txt` ]]; then {
 				echo "Brak kerneli na stronie https://kernel.org !"
 			} else {
