@@ -79,12 +79,18 @@ function rdzenie() {
 }
 
 function kompilacja() {
-	[ ! -d $KERNEL_D ] && { tar xavf linux-${KERNEL}.tar.xz;}
-	cd linux-${KERNEL}
+	if [ ! -d linux-$KERNEL ]; then {
+		echo "linux-$KERNEL"
+		pauza;
+		tar xavf linux-$KERNEL.tar.xz
+	} else {
+	cd linux-$KERNEL
 	echo -e "\e[32m===========================================\e[0m"
 	echo -e "\e[32m=  Wgrywam domyślną konfigurację kernela  =\e[0m"
 	echo -e "\e[32m===========================================\e[0m"
+	pwd
 	sleep 3	
+	make clean
 	make localmodconfig	
 	make menuconfig
 	make clean
@@ -92,8 +98,30 @@ function kompilacja() {
 	echo -e "\e[32m=  Rozpoczynam kompilację  =\e[0m"
 	echo -e "\e[32m============================\e[0m"
 	sleep 3	
-	make -j ${RDZENIE}                            	
+	make -j $RDZENIE
+	echo -e "\e[33mCo mam zrobić :\e[0m"
+	opcje=("Wgraj kernela" "Wyjście")
+	select opcja in "${opcje[@]}"
+	do
+		case $opcja in
+			"Wgraj kernela")
+				sudo make modules_install
+				sudo cp -v arch/x86_64/boot/bzImage /boot/vmlinuz-linux-$KERNEL
+				echo "Zakończyłem wgrywanie do katalogu /boot"
+				cd ..
+				sleep 3
+			;;
+			"Wyjście")
+				cd ..
+				clear
+			;;
+			*) echo "Brak wyboru"
+		esac
+		break
+	done
+	} fi
 }
+
 
 # Głowny rdzeń skryptu
     while :
@@ -114,8 +142,8 @@ function kompilacja() {
 			echo -e "\e[32mPracujesz jako :\e[0m"; whoami 
                 	echo -e "\e[33mPodaj wersję kernela którą mam pobrać np.: 5.9.2\e[0m"
                 	read KERNEL
-                	zmienne;
-                        if [ ! -e "$KERNEL_EXIST" ] && [ ! -e "$KERNEL_SIGN" ]; then {
+			zmienne;
+                        if [ ! -f "$KERNEL_EXIST" ] && [ ! -f "$KERNEL_SIGN" ]; then {
 		         	if curl --output /dev/null --silent --head --fail "$ADRES_KERNELA"; then {
 			                echo -e "\e[32m Kernel istnieje : $ADRES_KERNELA , pobieram :\e[0m"
 			                sleep 3			
@@ -125,15 +153,15 @@ function kompilacja() {
                             		curl_gpg_tar_exist;
                             		echo "Pobierma klucze GPG"
 	                        	gpg --locate-keys torvalds@kernel.org gregkh@kernel.org
-	                        	unxz -c linux-${KERNEL}.tar.xz | gpg --verify linux-${KERNEL}.tar.sign -
+	                        	unxz -c linux-$KERNEL.tar.xz | gpg --verify linux-$KERNEL.tar.sign -
 	                            		if [ $? -eq 0 ]; then {
                                     		echo -e "\e[32m=====================\e[0m"
                                     		echo -e "\e[32m=  Podpis poprawny  =\e[0m"
                                     		echo -e "\e[32m=====================\e[0m"	
                                    	 	sleep 3
-						echo -e "\e[33m ::: KERNEL POBRANY: linux-${KERNEL}.tar.xz :::\e[0m"	
+						echo -e "\e[33m ::: KERNEL POBRANY: linux-$KERNEL.tar.xz :::\e[0m"	
                                 		} else {
-    		                        	echo "Problem z podpisem : linux-${KERNEL}.tar.xz"
+    		                        	echo "Problem z podpisem : linux-$KERNEL.tar.xz"
                                 		} fi
                             	}
 		                else {
@@ -145,7 +173,7 @@ function kompilacja() {
 	                     echo -e "\e[32m===========================\e[0m"
 	                     echo -e "\e[32m= Kernel jest już pobrany =\e[0m"
 	                     echo -e "\e[32m===========================\e[0m"
-			     echo -e "\e[33m ::: KERNEL POBRANY: linux-${KERNEL}.tar.xz :::\e[0m"	
+			     echo -e "\e[33m ::: KERNEL POBRANY: linux-$KERNEL.tar.xz :::\e[0m"	
 			     sleep 3
                         } fi
 			;;
@@ -153,9 +181,9 @@ function kompilacja() {
 			echo -e "\e[32mPracujesz jako :\e[0m"; whoami 
                 	echo -e "\e[33mPodaj wersję kernela którą mam pobrać i skompilować np.: 5.9.2\e[0m"
                 	read KERNEL
-                	zmienne;
                 	rdzenie;
-                        if [ ! -e "$KERNEL_EXIST" ] && [ ! -e "$KERNEL_SIGN" ]; then {
+ 			zmienne;
+ 			if [ ! -f "$KERNEL_EXIST" ] && [ ! -f "$KERNEL_SIGN" ]; then {
 		         	if curl --output /dev/null --silent --head --fail "$ADRES_KERNELA"; then {
 			                echo -e "\e[32m Kernel istnieje : $ADRES_KERNELA , pobieram :\e[0m"
 			                sleep 3			
@@ -165,19 +193,19 @@ function kompilacja() {
                             		curl_gpg_tar_exist;
                             		echo "Pobierma klucze GPG"
 	                        	gpg --locate-keys torvalds@kernel.org gregkh@kernel.org
-	                        	unxz -c linux-${KERNEL}.tar.xz | gpg --verify linux-${KERNEL}.tar.sign -
+	                        	unxz -c linux-$KERNEL.tar.xz | gpg --verify linux-$KERNEL.tar.sign -
 	                            		if [ $? -eq 0 ]; then {
                                     		echo -e "\e[32m=====================\e[0m"
                                     		echo -e "\e[32m=  Podpis poprawny  =\e[0m"
                                     		echo -e "\e[32m=====================\e[0m"	
                                    	 	sleep 3	
                                 		} else {
-    		                        	echo "Problem z podpisem : linux-${KERNEL}.tar.xz"
+    		                        	echo "Problem z podpisem : linux-$KERNEL.tar.xz"
                                 		} fi
 					kompilacja;
 				} else {
   			             echo "Kernel nie istnieje : $ADRES_KERNELA"
-			             exit
+			             exit 1
                             	} fi
                         } else {
 	                 	echo -e "\e[32m===========================\e[0m"
@@ -211,5 +239,6 @@ function kompilacja() {
 done
 }
 echo -e "\e[32mBy Curar :) 2020 r.\e[0m"
+unset KERNEL
 pauza
 done

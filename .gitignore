@@ -1,3 +1,4 @@
 *.sign
 *.tar.xz
 *.txt
+/linux-*
