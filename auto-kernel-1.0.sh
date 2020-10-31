@@ -215,15 +215,15 @@ function kompilacja() {
 				kompilacja;
                        } fi
 		;;
-            	"Sprawdzić dostępne kernele z kernel.org")
-			echo "Podaj numer wersji którą mam sprawdzić np. 5.9"
+            	"Sprawdzić dostępne kernele z kernel.org")	
+			echo "Podaj numer wersji gałęzi którą mam sprawdzić np. 5.9"
 			read numer
 			curl https://cdn.kernel.org/pub/linux/kernel/v5.x/ 2>&1 | grep -o -E 'href="([^"#]+)"' | cut -d'"' -f2 > kernele.txt		
 			awk '/linux-'$numer'[^a-z]+.tar.xz/' kernele.txt > linux-$numer.txt
 			if [[ ! `grep linux-$numer linux-$numer.txt` ]]; then {
 				echo "Brak kerneli na stronie https://kernel.org !"
 			} else {
-				sort linux-$numer.txt | more
+				sort -n linux-$numer.txt | more
 				read -p "Press ENTER"
 				clear
 			} fi
