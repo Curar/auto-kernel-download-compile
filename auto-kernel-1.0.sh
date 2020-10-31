@@ -42,6 +42,7 @@ RDZENIE=`getconf _NPROCESSORS_ONLN`
 KERNEL_EXIST="linux-${KERNEL}.tar.xz"
 KERNEL_SIGN="linux-${KERNEL}.tar.sign"
 KERNEL_D="linux-${KERNEL}"
+ADRES_KERNELA_PUB="https://cdn.kernel.org/pub/linux/kernel/v5.x/"
 ADRES_KERNELA="https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-${KERNEL}.tar.xz"
 ADRES_PODPISU="https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-${KERNEL}.tar.sign"
 }
@@ -189,13 +190,17 @@ function kompilacja() {
             	"Sprawdzić dostępne kernele z kernel.org")
 			echo "Podaj numer wersji którą mam sprawdzić np. 5.9"
 			read numer
-			curl https://mirrors.edge.kernel.org/pub/linux/kernel/v5.x/ 2>&1 | grep -o -E 'href="([^"#]+)"' | cut -d'"' -f2 > kernele.txt		
+			curl https://cdn.kernel.org/pub/linux/kernel/v5.x/ 2>&1 | grep -o -E 'href="([^"#]+)"' | cut -d'"' -f2 > kernele.txt		
 			cat kernele.txt | grep linux-$numer > linux-$numer.txt
 			echo "UWAGA wynik otwieram w edytorze Vim !"
 			echo "UWAGA aby wyjść wpisz :q i naduś ENTER"
 			sleep 3
-			vim linux-$numer.txt
-			clear
+			if [ ! `grep linux-$numer linux-$numer.txt` ]; then {
+				echo "Brak kerneli na stronie https://kernel.org !"
+			} else {
+				vim linux-$numer.txt
+				clear
+			} fi
 			echo "Zakończyłem sprawdzanie"
 		;;
 		"Wyjście")
