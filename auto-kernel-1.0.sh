@@ -220,13 +220,17 @@ function kompilacja() {
                        } fi
 		;;
             	"Sprawdzić dostępne kernele z kernel.org")	
-			echo "Podaj numer wersji gałęzi którą mam sprawdzić np. 5.9"
+			echo "Podaj numer wersji kernela którą mam sprawdzić np. 5.9.2"
 			read numer
 			curl https://cdn.kernel.org/pub/linux/kernel/v5.x/ 2>&1 | grep -o -E 'href="([^"#]+)"' | cut -d'"' -f2 > kernele.txt		
-			awk '/linux-'$numer'[^a-z]+.tar.xz/' kernele.txt > linux-$numer.txt
+			awk '/linux-'$numer'+.tar.xz/' kernele.txt > linux-$numer.txt
 			if [[ ! `grep linux-$numer linux-$numer.txt` ]]; then {
 				echo "Brak kerneli na stronie https://kernel.org !"
 			} else {
+				echo -e "\e[33mKernel istnieje\e[0m"
+				cat linux-$numer.txt
+				echo -e "\e[33mZ tej gałęzi dostępne są również kernele:\e[0m"
+				awk '/linux-'$numer'[^a-z]+.tar.xz/' kernele.txt > linux-$numer.txt
 				sort -n linux-$numer.txt | more
 				read -p "Press ENTER"
 				clear
