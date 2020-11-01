@@ -38,7 +38,6 @@ clear
 
 # Definicja zmiennych
 function zmienne() {
-RDZENIE=`getconf _NPROCESSORS_ONLN`
 KERNEL_EXIST="linux-${KERNEL}.tar.xz"
 KERNEL_SIGN="linux-${KERNEL}.tar.sign"
 KERNEL_D="linux-${KERNEL}"
@@ -68,6 +67,7 @@ function pauza() {
 }
 
 function rdzenie() {
+	RDZENIE=`getconf _NPROCESSORS_ONLN`
 	if [ ! "$RDZENIE -le 4" ]
 	then
 		echo -e "\e[32mWykryłem ,że masz : $RDZENIE wątki, dostosuję skrypt automatycznie\e[0m"
