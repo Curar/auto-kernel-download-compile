@@ -80,10 +80,10 @@ function rdzenie() {
 
 function kompilacja() {
 	if [ ! -d linux-$KERNEL ]; then {
-		echo "linux-$KERNEL"
-		pauza;
 		tar xavf linux-$KERNEL.tar.xz
 	} else {
+	echo ""
+	} fi
 	cd linux-$KERNEL
 	echo -e "\e[32m===========================================\e[0m"
 	echo -e "\e[32m=  Wgrywam domyślną konfigurację kernela  =\e[0m"
@@ -124,7 +124,6 @@ function kompilacja() {
 		esac
 		break
 	done
-	} fi
 }
 
 
