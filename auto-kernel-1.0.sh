@@ -221,14 +221,15 @@ function kompilacja() {
 		;;
             	"Sprawdzić dostępne kernele z kernel.org")	
 			numer=""
-			while [[ ! $numer =~ ^[5].[0-9] ]]; do
+			while [[ ! $numer =~ [5].[0-9] ]]; do
 				echo "Podaj numer wersji gałęzi kernela którą mam sprawdzić np. 5.9"
     				read numer
-				if [[ $numer < ^[4].[0-9] ]]; then {
-				echo "Podałeś numer ktorego nie mogę sprawdzić czyli : $numer"
-				} elif [[ $numer > ^[5].[0-9] ]]; then {
-				echo "Podaleś numer którego nie mogę sprawdzić czyli : $numer"
-				} fi
+				#if [[ ! $numer =~ ^[4].[0-9] ]]; then {
+				#echo "Podałeś numer ktorego nie mogę sprawdzić czyli : $numer"
+				#} fi
+	       			#elif [[ $numer > ^[5].[0-9] ]]; then {
+				#echo "Podaleś numer którego nie mogę sprawdzić czyli : $numer"
+				#} fi
 			done
 			curl -s https://cdn.kernel.org/pub/linux/kernel/v5.x/ 2>&1 | grep -o -E 'href="([^"#]+)"' | cut -d'"' -f2 > kernele.txt		
 			awk '/linux-'$numer'.tar.xz/' kernele.txt > linux-$numer.txt
