@@ -162,8 +162,8 @@ function kompilacja() {
                                     		echo -e "\e[32m=====================\e[0m"
                                     		echo -e "\e[32m=  Podpis poprawny  =\e[0m"
                                     		echo -e "\e[32m=====================\e[0m"	
-                                   	 	sleep 3
-						echo -e "\e[33m ::: KERNEL POBRANY: linux-$KERNEL.tar.xz :::\e[0m"	
+                                   	 	sleep 2
+						echo -e "\e[33mKERNEL POBRANY: linux-$KERNEL.tar.xz\e[0m"	
                                 		} else {
     		                        	echo "Problem z podpisem : linux-$KERNEL.tar.xz"
                                 		} fi
