@@ -234,7 +234,10 @@ function kompilacja() {
 				cat linux-$numer.txt
 				echo -e "\e[33mZ tej gałęzi dostępne są również kernele:\e[0m"
 				awk '/linux-'$numer'[^a-z]+.tar.xz/' kernele.txt > linux-$numer.txt
-				sort -n linux-$numer.txt | more
+				sort -n -t - -k 2 linux-$numer.txt | more
+				echo -e "\e[33mDostępne łaty:\e[0m"
+				awk '/patch-'$numer'[^a-z]+.xz/' kernele.txt > patch-$numer.txt	
+				sort patch-$numer.txt | more
 				read -p "Press ENTER"
 				clear
 			} fi
