@@ -239,6 +239,9 @@ function kompilacja() {
 				echo -e "\e[33mDostępne łaty:\e[0m"
 				awk '/patch-'$numer'[^a-z]+.xz/' kernele.asc > patch-$numer.txt
 				sort -n -t "." -k3 patch-$numer.txt | more
+				echo -e "\e[33mWyniki zapisałem w plikach:"
+				echo -e "\e[32mlinux-$numer.txt\e[0m"
+				echo -e "\e[32mpatch-$numer.txt\e[0m"
 				read -p "Press ENTER"
 				clear
 			} fi
