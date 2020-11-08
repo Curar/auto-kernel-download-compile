@@ -227,7 +227,6 @@ function kompilacja() {
 			done
 			curl -s https://mirrors.edge.kernel.org/pub/linux/kernel/v5.x/sha256sums.asc > kernele.txt
 			awk '/linux-'$numer'.tar.xz/' kernele.txt > linux-$numer.txt
-			sleep 3
 			if [[ ! `grep linux-$numer linux-$numer.txt` ]]; then {
 				echo "Brak kerneli na stronie https://kernel.org !"
 			} else {
