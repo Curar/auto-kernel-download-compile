@@ -224,15 +224,10 @@ function kompilacja() {
 			while [[ ! $numer =~ [5].[0-9] ]]; do
 				echo "Podaj numer wersji gałęzi kernela którą mam sprawdzić np. 5.9"
     				read numer
-				#if [[ ! $numer =~ ^[4].[0-9] ]]; then {
-				#echo "Podałeś numer ktorego nie mogę sprawdzić czyli : $numer"
-				#} fi
-	       			#elif [[ $numer > ^[5].[0-9] ]]; then {
-				#echo "Podaleś numer którego nie mogę sprawdzić czyli : $numer"
-				#} fi
 			done
-			curl -s https://cdn.kernel.org/pub/linux/kernel/v5.x/ 2>&1 | grep -o -E 'href="([^"#]+)"' | cut -d'"' -f2 > kernele.txt		
+			curl -s https://mirrors.edge.kernel.org/pub/linux/kernel/v5.x/sha256sums.asc > kernele.txt
 			awk '/linux-'$numer'.tar.xz/' kernele.txt > linux-$numer.txt
+			sleep 3
 			if [[ ! `grep linux-$numer linux-$numer.txt` ]]; then {
 				echo "Brak kerneli na stronie https://kernel.org !"
 			} else {
