@@ -5,8 +5,6 @@
 #### Turning on :
 `./auto-kernel-1.0.sh`
 #### Below are screenshots from terminal showing the script operation :
-<p align="center">
 ![Terminal1](/image/terminal-1.png)
 ![Terminal2](/image/terminal-2.png)
 ![Terminal3](/image/terminal-3.png)
-</p>
