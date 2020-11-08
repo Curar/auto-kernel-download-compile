@@ -38,10 +38,11 @@ clear
 
 # Definicja zmiennych
 function zmienne() {
+numer=""
 KERNEL_EXIST="linux-${KERNEL}.tar.xz"
 KERNEL_SIGN="linux-${KERNEL}.tar.sign"
 KERNEL_D="linux-${KERNEL}"
-ADRES_KERNELA_PUB="https://cdn.kernel.org/pub/linux/kernel/v5.x/"
+ADRES_KERNELA_PLIKI="https://cdn.kernel.org/pub/linux/kernel/v5.x/sha256sums.asc"
 ADRES_KERNELA="https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-${KERNEL}.tar.xz"
 ADRES_PODPISU="https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-${KERNEL}.tar.sign"
 }
@@ -219,24 +220,24 @@ function kompilacja() {
 				kompilacja;
                        } fi
 		;;
-            	"Sprawdzić dostępne kernele z kernel.org")	
-			numer=""
+            	"Sprawdzić dostępne kernele z kernel.org")
+			zmienne;	
 			while [[ ! $numer =~ [5].[0-9] ]]; do
 				echo "Podaj numer wersji gałęzi kernela którą mam sprawdzić np. 5.9"
     				read numer
 			done
-			curl -s https://mirrors.edge.kernel.org/pub/linux/kernel/v5.x/sha256sums.asc > kernele.txt
-			awk '/linux-'$numer'.tar.xz/' kernele.txt > linux-$numer.txt
+			curl --compressed --progress-bar -o kernele.asc $ADRES_KERNELA_PLIKI
+			awk '/linux-'$numer'.tar.xz/' kernele.asc > linux-$numer.txt
 			if [[ ! `grep linux-$numer linux-$numer.txt` ]]; then {
 				echo "Brak kerneli na stronie https://kernel.org !"
 			} else {
 				echo -e "\e[33mKernel istnieje\e[0m"
 				cat linux-$numer.txt
 				echo -e "\e[33mZ tej gałęzi dostępne są również kernele:\e[0m"
-				awk '/linux-'$numer'[^a-z]+.tar.xz/' kernele.txt > linux-$numer.txt
+				awk '/linux-'$numer'[^a-z]+.tar.xz/' kernele.asc > linux-$numer.txt
 				sort -n -t "." -k3 linux-$numer.txt | more
 				echo -e "\e[33mDostępne łaty:\e[0m"
-				awk '/patch-'$numer'[^a-z]+.xz/' kernele.txt > patch-$numer.txt	
+				awk '/patch-'$numer'[^a-z]+.xz/' kernele.asc > patch-$numer.txt
 				sort -n -t "." -k3 patch-$numer.txt | more
 				read -p "Press ENTER"
 				clear
