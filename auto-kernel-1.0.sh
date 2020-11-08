@@ -170,7 +170,7 @@ function kompilacja() {
                             	}
 		                else {
   			             echo "Kernel nie istnieje : $ADRES_KERNELA"
-			             exit
+			             sleep 2
                             	} fi
                         }
 	                else {
@@ -209,7 +209,7 @@ function kompilacja() {
 					kompilacja;
 				} else {
   			             echo "Kernel nie istnieje : $ADRES_KERNELA"
-			             exit 1
+			             sleep 2
                             	} fi
                         } else {
 	                 	echo -e "\e[32m===========================\e[0m"
