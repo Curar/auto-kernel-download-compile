@@ -1,3 +1,4 @@
+*.asc
 *.sign
 *.tar.xz
 *.txt
