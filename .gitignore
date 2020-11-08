@@ -1,5 +1,6 @@
 *.asc
 *.sign
 *.tar.xz
+*.xz
 *.txt
 /linux-*
