@@ -127,6 +127,45 @@ function kompilacja() {
 	done
 }
 
+function kernele() {
+	zmienne;	
+	while [[ ! $numer =~ [5].[0-9] ]]; do
+	echo "Podaj numer wersji gałęzi kernela którą mam sprawdzić np. 5.9"
+    	read numer
+	done
+	curl --compressed --progress-bar -o kernele.asc $ADRES_KERNELA_PLIKI
+	awk '/linux-'$numer'.tar.xz/' kernele.asc > linux-$numer.txt
+	if [[ ! `grep linux-$numer linux-$numer.txt` ]]; then {
+		echo "Brak kerneli na stronie https://kernel.org !"
+		} else {
+			echo -e "\e[33mKernel istnieje\e[0m"
+			cat linux-$numer.txt
+			echo -e "\e[33mZ tej gałęzi dostępne są również kernele:\e[0m"
+			awk '/linux-'$numer'[^a-z]+.tar.xz/' kernele.asc > linux-$numer.txt
+			sort -n -t "." -k3 linux-$numer.txt | more
+			echo -e "\e[33mDostępne łaty:\e[0m"
+			awk '/patch-'$numer'[^a-z]+.xz/' kernele.asc > patch-$numer.txt
+			sort -n -t "." -k3 patch-$numer.txt | more
+			kernele_file=$(cat linux-$numer.txt |tr "\n" " ")
+			kernele_tablica=($kernele_file)
+			readarray -t menu < linux-$numer.txt
+			for i in "${!menu[@]}"; do
+				menu_list[$i]="${menu[$i]%% *}"
+			done
+			select wybor in "${menu_list[@]}"; do
+				case "$wybor" in
+					"") brake ;;
+					*) Kernel "${menu_list[$wybor]}" ;;
+				esac
+			done
+			echo -e "\e[33mWyniki zapisałem w plikach:"
+			echo -e "\e[32mlinux-$numer.txt\e[0m"
+			echo -e "\e[32mpatch-$numer.txt\e[0m"
+			read -p "Press ENTER"
+		} fi
+	echo "Zakończyłem sprawdzanie"
+}
+
 
 # Głowny rdzeń skryptu
     while :
@@ -144,7 +183,7 @@ function kompilacja() {
 	do
 		case $opcja in
 		"Pobrać tylko wskazane źródło kernela") 	
-			echo -e "\e[32mPracujesz jako :\e[0m"; whoami 
+			echo -e "\e[32mPracujesz jako :\e[0m"; whoami
                 	echo -e "\e[33mPodaj wersję kernela którą mam pobrać np.: 5.9.2\e[0m"
                 	read KERNEL
 			zmienne;
@@ -154,8 +193,8 @@ function kompilacja() {
 			                sleep 3			
 			                curl --compressed --progress-bar -o "$KERNEL_EXIST" "$ADRES_KERNELA"
 			                curl --compressed --progress-bar -o "$KERNEL_SIGN" "$ADRES_PODPISU"
-			                clear
-                            		curl_gpg_tar_exist;
+                            		clear
+					curl_gpg_tar_exist;
                             		echo "Pobierma klucze GPG"
 	                        	gpg --locate-keys torvalds@kernel.org gregkh@kernel.org
 	                        	unxz -c linux-$KERNEL.tar.xz | gpg --verify linux-$KERNEL.tar.sign -
