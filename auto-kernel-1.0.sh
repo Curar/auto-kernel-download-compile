@@ -78,7 +78,58 @@ function rdzenie() {
 	fi
 }
 
+
+function kompilacja_rakietka() {
+	echo "Pobierma klucze GPG"
+	gpg --locate-keys torvalds@kernel.org gregkh@kernel.org
+	unxz -c linux-${KERNEL}.tar.xz | gpg --verify linux-${KERNEL}.tar.sign -
+	if [ $? -eq 0 ]
+	then
+		echo -e "\e[32m=====================\e[0m"
+		echo -e "\e[32m=  Podpis poprawny  =\e[0m"
+		echo -e "\e[32m=====================\e[0m"	
+		sleep 5	
+	else
+    		echo "Problem z podpisem : linux-${KERNEL}.tar.xz"
+		exit
+	fi	
+	[ ! -d $KERNEL_D ] && { tar xavf linux-${KERNEL}.tar.xz; }
+	[ -f $SKERNEL_EXIST ] && { echo "$SKERNEL_EXIST Konfig istnieje !!!"; cp ${SKERNEL_EXIST} linux-${KERNEL}/.config; }
+        if [ ! -e "$SKERNEL_EXIST" ]
+	then
+		echo -e "\e[31m=======================================\e[0m"
+		echo -e "\e[31m=  Brak pliku z konfiguracją kernela  =\e[0m"
+		echo -e "\e[31m=======================================\e[0m"
+		sleep 5	
+		cd linux-${KERNEL}
+		echo -e "\e[32m===========================================\e[0m"
+		echo -e "\e[32m=  Wgrywam domyślną konfigurację kernela  =\e[0m"
+		echo -e "\e[32m===========================================\e[0m"
+		sleep 5	
+		make localmodconfig
+		cd ..
+	else
+		cd linux-${KERNEL}
+		echo -e "\e[32m====================================================\e[0m"
+		echo -e "\e[32m=   Wgrywam konfigurację kernela R-A-K-I-E-T-K-A   =\e[0m"
+		echo -e "\e[32m====================================================\e[0m"
+		sleep 5	
+		make oldconfig
+		cd ..
+	fi
+	cd linux-${KERNEL}	
+	make menuconfig
+	make clean
+	echo -e "\e[32m============================\e[0m"
+	echo -e "\e[32m=  Rozpoczynam kompilację  =\e[0m"
+	echo -e "\e[32m============================\e[0m"
+	sleep 5	
+	make -j ${RDZENIE}
+}
+
+
 function kompilacja() {
+	rdzenie;
 	if [ ! -d $wybor ]; then {
 		tar xavf $wybor
 	} else {
@@ -100,7 +151,7 @@ function kompilacja() {
 		} else {
 		echo -e "\e[33mKontynuuje z domyślną konfiguracją\e[0m"
 		} fi
-	make -j $RDZENIE clean
+	make clean
 	echo -e "\e[32m============================\e[0m"
 	echo -e "\e[32m=  Rozpoczynam kompilację  =\e[0m"
 	echo -e "\e[32m============================\e[0m"
