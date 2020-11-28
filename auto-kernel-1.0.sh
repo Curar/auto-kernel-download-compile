@@ -78,6 +78,24 @@ function rdzenie() {
 	fi
 }
 
+
+function archlinux {
+	cat << EOF > $katalog.preset
+	ALL_config="/etc/mkinitcpio.conf"
+	ALL_kver="/boot/vmlinuz-$katalog"
+	PRESETS=('default' 'fallback')
+	default_image="/boot/initramfs-$katalog.img"
+	fallback_image="/boot/initramfs-$katalog-fallback.img"
+	fallback_options="-S autodetect"
+	
+EOF
+
+	sudo cp $katalog.preset /etc/mkinitcpio.d/$katalog.preset	
+	sudo mkinitcpio -p $katalog
+	sudo grub-mkconfig -o /boot/grub/grub.cfg
+}
+
+
 function kompilacja() {
 	rdzenie;
 	if [ ! -d $wybor ]; then {
@@ -114,8 +132,20 @@ function kompilacja() {
 		case $opcja in
 			"Wgraj kernela")
 				sudo make modules_install
-				sudo cp -v arch/x86_64/boot/bzImage /boot/vmlinuz-linux-$KERNEL
+				sudo cp -v arch/x86_64/boot/bzImage /boot/vmlinuz-linux-$katalog
 				echo "Zakończyłem wgrywanie do katalogu /boot"
+
+				echo "Jaką masz dystrybucję : ?"
+				select ARCH in ArchLinux Debian Inna WYJŚCIE
+				do
+	  				case "$ARCH" in
+	  				"ArchLinux") archlinux;;
+					"Debian") debian;;
+	  				"WYJŚCIE") echo "Wychodzę";;
+	  					*) echo "Brak wyboru"
+					esac
+					break
+				done
 				cd ..
 				sleep 3
 			;;
