@@ -132,7 +132,7 @@ function kompilacja() {
 		case $opcja in
 			"Wgraj kernela")
 				sudo make modules_install
-				sudo cp -v arch/x86_64/boot/bzImage /boot/vmlinuz-linux-$katalog
+				sudo cp -v arch/x86_64/boot/bzImage /boot/vmlinuz-$katalog
 				echo "Zakończyłem wgrywanie do katalogu /boot"
 
 				echo "Jaką masz dystrybucję : ?"
