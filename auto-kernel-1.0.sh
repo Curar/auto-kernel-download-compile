@@ -46,20 +46,18 @@ ADRES_KERNELA_PLIKI="https://cdn.kernel.org/pub/linux/kernel/v5.x/sha256sums.asc
 ADRES_KERNELA="https://cdn.kernel.org/pub/linux/kernel/v5.x/${wybor}"
 }
 
-# Definicja funkcji używanych w skrypcie
-function curl_gpg_tar_exist() {
-	if ! [ -x "$(command -v curl)" ]; then {
-  		echo 'UWAGA curl nie jest zainstalowany !' >&2
-		exit 1
-    	}
-	elif ! [ -x "$(command -v gpg)" ]; then {
-		echo 'UWAGA gpg nie jest zainstalowane !' >&2
-       		exit 1
-    	}  
-	elif ! [ -x "$(command -v tar)" ]; then {
-		echo 'UWAGA tar nie jest zainstalowane !' >&2
-		exit 1
-	} fi
+# Definicja funkcji 
+function polecenia() {
+echo "Sprawdzę czy masz odpowiednie programy w systemie"
+sleep 2
+for program in which sudo sed pkgconf patch pacman make m4 libtool gzip groff grep gettext gcc gawk flex file fakeroot bison bc automake autoconf; do
+      	printf '%-10s' "$program"
+  if hash "$program" 2>/dev/null; then
+    echo "- Jest zainstalowany"
+  else
+    echo "- Trzeba doinstalować"
+  fi
+done
 }
 
 function pauza() {	
@@ -251,6 +249,8 @@ function kompilacja() {
 			clear
 			;;
             		"Pobrać i skompilować wskazane źródło")	
+			polecenia;
+			read -p 'Press ENTER'
 			zmienne;		
 			curl --compressed -o kernele.asc $ADRES_KERNELA_PLIKI
 			clear
