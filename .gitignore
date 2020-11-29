@@ -3,4 +3,5 @@
 *.tar.xz
 *.xz
 *.txt
+*.deb
 /linux-*
