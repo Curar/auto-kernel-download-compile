@@ -107,6 +107,22 @@ function archlinux {
 			"Wgraj kernela")
 				sudo make modules_install
 				sudo cp -v arch/x86_64/boot/bzImage /boot/vmlinuz-$katalog
+				
+
+cat << EOF > $katalog.preset
+				ALL_config="/etc/mkinitcpio.conf"
+				ALL_kver="/boot/vmlinuz-$katalog"
+				PRESETS=('default' 'fallback')
+				default_image="/boot/initramfs-$katalog.img"
+				fallback_image="/boot/initramfs-$katalog-fallback.img"
+				fallback_options="-S autodetect"
+	
+EOF
+
+				sudo cp $katalog.preset /etc/mkinitcpio.d/$katalog.preset	
+				sudo mkinitcpio -p $katalog
+				sudo grub-mkconfig -o /boot/grub/grub.cfg
+
 				echo "Zakończyłem wgrywanie do katalogu /boot"
 				cd ..
 				sleep 3
@@ -119,20 +135,6 @@ function archlinux {
 		esac
 		break
 	done
-
-	cat << EOF > $katalog.preset
-	ALL_config="/etc/mkinitcpio.conf"
-	ALL_kver="/boot/vmlinuz-$katalog"
-	PRESETS=('default' 'fallback')
-	default_image="/boot/initramfs-$katalog.img"
-	fallback_image="/boot/initramfs-$katalog-fallback.img"
-	fallback_options="-S autodetect"
-	
-EOF
-
-	sudo cp $katalog.preset /etc/mkinitcpio.d/$katalog.preset	
-	sudo mkinitcpio -p $katalog
-	sudo grub-mkconfig -o /boot/grub/grub.cfg
 }
 
 function debian() {
@@ -162,63 +164,11 @@ function kompilacja() {
 	  	"ArchLinux") archlinux;;
 		"Debian") debian;;
 		"Inna") inna;;
-	  	"WYJŚCIE") echo "Wychodzę";;
+	  	"WYJŚCIE") exit 1;;
 	  	*) echo "Brak wyboru"
 	  esac
 	break
 	done
-
-#	echo -e "\e[32m===========================================\e[0m"
-#	echo -e "\e[32m=  Wgrywam domyślną konfigurację kernela  =\e[0m"
-#	echo -e "\e[32m===========================================\e[0m"
-#	pwd
-#	sleep 3	
-#	make localmodconfig
-#	echo -e "\e[33mCzy wejść w opcje konfiguracyjne kernela (make menuconfig)\e[0m"
-#	read -r -p "Press Y or N" wybory	
-#		if [[ "$wybory" =~ ^([yY][eE][sS]|[yY])$ ]]; then {
-#		make menuconfig
-#		} else {
-#		echo -e "\e[33mKontynuuje z domyślną konfiguracją\e[0m"
-#		} fi
-#	make clean
-#	echo -e "\e[32m============================\e[0m"
-#	echo -e "\e[32m=  Rozpoczynam kompilację  =\e[0m"
-#	echo -e "\e[32m============================\e[0m"
-#	sleep 3	
-#	make -j $RDZENIE
-#	echo -e "\e[33mCo mam zrobić :\e[0m"
-#	opcje=("Wgraj kernela" "Wyjście")
-#	select opcja in "${opcje[@]}"
-#	do
-#		case $opcja in
-#			"Wgraj kernela")
-#				sudo make modules_install
-#				sudo cp -v arch/x86_64/boot/bzImage /boot/vmlinuz-$katalog
-#				echo "Zakończyłem wgrywanie do katalogu /boot"
-
-#				echo "Jaką masz dystrybucję : ?"
-#				select ARCH in ArchLinux Debian Inna WYJŚCIE
-#				do
-#	  				case "$ARCH" in
-#	  				"ArchLinux") archlinux;;
-#					"Debian") debian;;
-#	  				"WYJŚCIE") echo "Wychodzę";;
-#	  					*) echo "Brak wyboru"
-#					esac
-#					break
-#				done
-#				cd ..
-#				sleep 3
-#			;;
-#			"Wyjście")
-#				cd ..
-#				clear
-#			;;
-#			*) echo "Brak wyboru"
-#		esac
-#		break
-#	done
 }
 
 function kernele() {
