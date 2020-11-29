@@ -139,8 +139,8 @@ function debian() {
 make -j`nproc` bindeb-pkg
 }
 
-function inna() {
-echo "Dział w budowie"
+function ubuntu() {
+LANG=C fakeroot debian/rules clean
 }
 
 function kompilacja() {
@@ -156,12 +156,12 @@ function kompilacja() {
 
 
 	echo "Jaką masz dystrybucję : ?"
-	select ARCH in ArchLinux Debian Inna WYJŚCIE
+	select ARCH in Archlinux Debian Ubuntu WYJŚCIE
 	do
 	  case "$ARCH" in
-	  	"ArchLinux") archlinux;;
+	  	"Archlinux") archlinux;;
 		"Debian") debian;;
-		"Inna") inna;;
+		"Ubuntu") ubuntu;;
 	  	"WYJŚCIE") exit 1;;
 	  	*) echo "Brak wyboru"
 	  esac
