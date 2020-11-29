@@ -50,7 +50,7 @@ ADRES_KERNELA="https://cdn.kernel.org/pub/linux/kernel/v5.x/${wybor}"
 function polecenia() {
 echo "Sprawdzę czy masz odpowiednie programy w systemie"
 sleep 2
-for program in which sudo sed pkgconf patch pacman make m4 libtool gzip groff grep gettext gcc gawk flex file fakeroot bison bc automake autoconf; do
+for program in which sudo sed patch make m4 gzip groff grep gettext gcc flex file fakeroot bison bc automake autoconf ncurses; do
       	printf '%-10s' "$program"
   if hash "$program" 2>/dev/null; then
     echo "- Jest zainstalowany"
