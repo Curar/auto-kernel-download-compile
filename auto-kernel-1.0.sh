@@ -211,17 +211,17 @@ function kompilacja() {
     do {
 	clear
 	echo -e "\e[32m${tablica_logo["0"]}\e[0m"
-	echo -e "\e[32mCo mam zrobić :\e[0m"
+	echo -e "\e[32mWhat should I do :\e[0m"
 	opcje_wyboru=(
-		"Pobrać tylko wskazane źródło kernela" 
-		"Pobrać i skompilować wskazane źródło" 
-		"Sprawdzić dostępne kernele z kernel.org"
-		"Wyjście"
+		"Download kernel source" 
+		"Download and compile kernel source" 
+		"Checking exist kernel source"
+		"Exit"
 	)
 	select opcja in "${opcje_wyboru[@]}"
 	do
 		case $opcja in
-		"Pobrać tylko wskazane źródło kernela") 		
+		"Download kernel source") 		
 		zmienne;		
 		curl --compressed -o kernele.asc $ADRES_KERNELA_PLIKI
 		clear
@@ -274,7 +274,7 @@ function kompilacja() {
 	                     echo -e "\e[32m====================================\e[0m"
 	                     echo -e "\e[32m= The kernel is already downloaded =\e[0m"
 	                     echo -e "\e[32m====================================\e[0m"
-			     echo -e "\e[33mKernel download: $wybor.tar.xz\e[0m"	
+			     echo -e "\e[33mKernel download: $wybor\e[0m"	
 			     sleep 2
                         } fi
 			;;
@@ -284,7 +284,7 @@ function kompilacja() {
 			read -p "Press ENTER"
 			clear
 			;;
-            		"Pobrać i skompilować wskazane źródło")	
+            		"Download and compile kernel source")	
 			polecenia;
 			read -p 'Press ENTER'
 			zmienne;		
@@ -339,7 +339,7 @@ function kompilacja() {
 	                     echo -e "\e[32m====================================\e[0m"
 	                     echo -e "\e[32m= The kernel is already downloaded =\e[0m"
 	                     echo -e "\e[32m====================================\e[0m"
-			     echo -e "\e[33mKernel download: $wybor.tar.xz\e[0m"	
+			     echo -e "\e[33mKernel download: $wybor\e[0m"	
 			     sleep 2
                         } fi
 			;;
@@ -350,7 +350,7 @@ function kompilacja() {
 			read -p "Press ENTER"
 			clear
 			;;
-            		"Sprawdzić dostępne kernele z kernel.org")
+            		"Checking exist kernel source")
 			zmienne;	
 			while [[ ! $numer =~ [5].[0-9] ]]; do
 				echo "Podaj numer wersji gałęzi kernela którą mam sprawdzić np. 5.9"
@@ -377,11 +377,11 @@ function kompilacja() {
 			} fi
 			echo "Zakończyłem sprawdzanie"
 		;;
-		"Wyjście")
+		"Exit")
 			clear
 			exit 1
 		;;
-	*) echo "Brak wyboru !"
+	*) echo "No choice !"
 	esac
 	break
 done
