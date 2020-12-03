@@ -50,7 +50,7 @@ ADRES_KERNELA="https://cdn.kernel.org/pub/linux/kernel/v5.x/${wybor}"
 function polecenia() {
 echo -e "\e[33mSprawdzę czy masz odpowiednie programy w systemie\e[0m"
 sleep 2
-for program in which sudo rsync sed patch make m4 gzip groff grep gettext gcc flex file fakeroot bison bc automake autoconf; do
+for program in pahole which sudo rsync sed patch make m4 gzip groff grep gettext gcc flex file fakeroot bison bc automake autoconf; do
       	printf '%-10s' "$program"
   if hash "$program" 2>/dev/null; then
     echo -e "\e[32m- Jest zainstalowany\e[0m"
