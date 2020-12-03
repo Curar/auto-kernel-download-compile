@@ -14,7 +14,7 @@
 clear
 tablica_info["0"]="
 ==============================================================
-Skrypt automatyzujący pobieranie kernela oraz jego kompilację
+   A script that automates kernel download and compilation
 ==============================================================
  https://kernel.org
  
@@ -31,9 +31,9 @@ tablica_logo["0"]="
 "
 echo -e "\e[33m${tablica_info["0"]}\e[0m"
 echo -e "\e[32m${tablica_logo["0"]}\e[0m"
-echo -e "\e[33mDZIEŃ DOBRY\e[0m"
+echo -e "\e[33mHELLOW\e[0m"
 echo ""
-read -p "Naduś ENTER"
+read -p "Press ENTER"
 clear
 
 # Definicja zmiennych
@@ -48,30 +48,30 @@ ADRES_KERNELA="https://cdn.kernel.org/pub/linux/kernel/v5.x/${wybor}"
 
 # Definicja funkcji 
 function polecenia() {
-echo -e "\e[33mSprawdzę czy masz odpowiednie programy w systemie\e[0m"
+echo -e "\e[33mI will check if you have the appropriate programs in the system\e[0m"
 sleep 2
 for program in pahole which sudo rsync sed patch make m4 gzip groff grep gettext gcc flex file fakeroot bison bc automake autoconf; do
       	printf '%-10s' "$program"
   if hash "$program" 2>/dev/null; then
-    echo -e "\e[32m- Jest zainstalowany\e[0m"
+    echo -e "\e[32m- It is installed\e[0m"
   else
-    echo -e "\e[31m- Trzeba doinstalować\e[0m"
+    echo -e "\e[31m- It is not installed\e[0m"
   fi
 done
 }
 
 function pauza() {	
-	read -p "Naduś klawisz ENTER aby kontynować ..."
+	read -p "Press ENTER"
 }
 
 function rdzenie() {
 	RDZENIE=`getconf _NPROCESSORS_ONLN`
 	if [ ! "$RDZENIE -le 4" ]
 	then
-		echo -e "\e[32mWykryłem ,że masz : $RDZENIE wątki, dostosuję skrypt automatycznie\e[0m"
+		echo -e "\e[32mI have detected you have : $RDZENIE threads, I'll customize the script\e[0m"
 		sleep 3
 	else
-		echo -e	"\e[32mWykryłem ,że masz : $RDZENIE wątków, dostosuję skrypt automatycznie\e[0m"
+		echo -e	"\e[32mI have detected you have : $RDZENIE threades,I'll customize the script\e[0m"
         sleep 3	
 	fi
 }
