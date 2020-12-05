@@ -136,12 +136,20 @@ EOF
 }
 
 function debian() {
-	echo -e "\e[32m===========================================\e[0m"
-	echo -e "\e[32m=  Wgrywam domyślną konfigurację kernela  =\e[0m"
-	echo -e "\e[32m===========================================\e[0m"
 	pwd
-	sleep 3	
-	make localmodconfig
+	sleep 3
+	echo -e "\e[33mJaką przeprowadzamy kąpilację : ?\e[0m"
+	select kompilacja in allyesconfig allmodconfig localmodconfig WYJŚCIE
+	do
+	  case "$kompilacja" in
+	  	"allyesconfig") make allyesconfig;;
+		"allmodconfig") make allmodconfig;;
+		"localmodconfig") make localmodconfig;;
+	  	"WYJŚCIE") exit 1;;
+	  	*) echo "Brak wyboru"
+	  esac
+	break
+	done
 	echo -e "\e[33mCzy wejść w opcje konfiguracyjne kernela (make menuconfig)\e[0m"
 	read -r -p "Press Y or N" wybory	
 		if [[ "$wybory" =~ ^([yY][eE][sS]|[yY])$ ]]; then {
