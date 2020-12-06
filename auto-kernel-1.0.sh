@@ -55,8 +55,10 @@ for program in pahole which sudo rsync sed patch make m4 gzip groff grep gettext
       	printf '%-10s' "$program"
   if hash "$program" 2>/dev/null; then
     echo -e "\e[32m- It is installed\e[0m"
-  else
+    sleep 0.1 
+ else
     echo -e "\e[31m- It is not installed\e[0m"
+    sleep 0.1
   fi
 done
 }
