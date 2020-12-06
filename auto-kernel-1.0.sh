@@ -178,9 +178,6 @@ function debian() {
 }
 
 function ubuntu() {
-	echo -e "\e[32m===========================================\e[0m"
-	echo -e "\e[32m=  Wgrywam domyślną konfigurację kernela  =\e[0m"
-	echo -e "\e[32m===========================================\e[0m"
 	pwd
 	sleep 3	
 	rodzaje_kompilacji;
@@ -209,8 +206,6 @@ function kompilacja() {
 	katalog=`echo $wybor | sed -n '/\.tar.xz$/s///p'` 
 	echo $katalog
 	cd $katalog
-
-
 	echo -e "\e[33mJaką masz dystrybucję : ?\e[0m"
 	select ARCH in Archlinux Debian Ubuntu WYJŚCIE
 	do
