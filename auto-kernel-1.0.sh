@@ -61,6 +61,21 @@ for program in pahole which sudo rsync sed patch make m4 gzip groff grep gettext
 done
 }
 
+function rodzaje_kompilacji() {
+	echo -e "\e[33mJaką przeprowadzamy kąpilację : ?\e[0m"
+	select kompilacja in allyesconfig allmodconfig localmodconfig WYJŚCIE
+	do
+	  case "$kompilacja" in
+	  	"allyesconfig") make allyesconfig;;
+		"allmodconfig") make allmodconfig;;
+		"localmodconfig") make localmodconfig;;
+	  	"WYJŚCIE") exit 1;;
+	  	*) echo "Brak wyboru"
+	  esac
+	break
+	done
+}
+
 function pauza() {	
 	read -p "Press ENTER"
 }
@@ -87,7 +102,7 @@ function archlinux {
 	echo -e "\e[32m===========================================\e[0m"
 	pwd
 	sleep 3	
-	make localmodconfig
+	rodzaje_kompilacji;
 	echo -e "\e[33mCzy wejść w opcje konfiguracyjne kernela (make menuconfig)\e[0m"
 	read -r -p "Press Y or N" wybory	
 		if [[ "$wybory" =~ ^([yY][eE][sS]|[yY])$ ]]; then {
@@ -142,18 +157,7 @@ EOF
 function debian() {
 	pwd
 	sleep 3
-	echo -e "\e[33mJaką przeprowadzamy kąpilację : ?\e[0m"
-	select kompilacja in allyesconfig allmodconfig localmodconfig WYJŚCIE
-	do
-	  case "$kompilacja" in
-	  	"allyesconfig") make allyesconfig;;
-		"allmodconfig") make allmodconfig;;
-		"localmodconfig") make localmodconfig;;
-	  	"WYJŚCIE") exit 1;;
-	  	*) echo "Brak wyboru"
-	  esac
-	break
-	done
+	rodzaje_kompilacji;
 	echo -e "\e[33mCzy wejść w opcje konfiguracyjne kernela (make menuconfig)\e[0m"
 	read -r -p "Press Y or N" wybory	
 		if [[ "$wybory" =~ ^([yY][eE][sS]|[yY])$ ]]; then {
@@ -175,7 +179,7 @@ function ubuntu() {
 	echo -e "\e[32m===========================================\e[0m"
 	pwd
 	sleep 3	
-	make localmodconfig
+	rodzaje_kompilacji;
 	echo -e "\e[33mCzy wejść w opcje konfiguracyjne kernela (make menuconfig)\e[0m"
 	read -r -p "Press Y or N" wybory	
 		if [[ "$wybory" =~ ^([yY][eE][sS]|[yY])$ ]]; then {
@@ -203,7 +207,7 @@ function kompilacja() {
 	cd $katalog
 
 
-	echo "Jaką masz dystrybucję : ?"
+	echo -e "\e[33mJaką masz dystrybucję : ?\e[0m"
 	select ARCH in Archlinux Debian Ubuntu WYJŚCIE
 	do
 	  case "$ARCH" in
