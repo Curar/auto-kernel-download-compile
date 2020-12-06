@@ -63,14 +63,18 @@ done
 
 function rodzaje_kompilacji() {
 	echo -e "\e[33mJaką przeprowadzamy kąpilację : ?\e[0m"
-	select kompilacja in allyesconfig allmodconfig localmodconfig WYJŚCIE
+	select kompilacja in allnoconfig defconfig allyesconfig allmodconfig localyesconfig localmodconfig tinyconfig WYJŚCIE
 	do
 	  case "$kompilacja" in
-	  	"allyesconfig") make allyesconfig;;
-		"allmodconfig") make allmodconfig;;
-		"localmodconfig") make localmodconfig;;
-	  	"WYJŚCIE") exit 1;;
-	  	*) echo "Brak wyboru"
+		  "allnoconfig") make allnoconfig;;
+		  "defconfig") make defconfig;;
+  		  "allyesconfig") make allyesconfig;;
+		  "allmodconfig") make allmodconfig;;
+		  "localyesconfig") make localyesconfig;;		  
+		  "localmodconfig") make localmodconfig;;
+		  "tinyconfig") make tinyconfig;;
+		  "WYJŚCIE") exit 1;;
+	  	  *) echo "Brak wyboru"
 	  esac
 	break
 	done
