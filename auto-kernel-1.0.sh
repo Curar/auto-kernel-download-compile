@@ -39,11 +39,12 @@ clear
 # Definicja zmiennych
 function zmienne() {
 numer=""
-KERNEL_EXIST="linux-${KERNEL}.tar.xz"
-KERNEL_SIGN="linux-${KERNEL}.tar.sign"
-KERNEL_D="linux-${KERNEL}"
+#KERNEL_EXIST="linux-${KERNEL}.tar.xz"
+#KERNEL_SIGN="linux-${KERNEL}.tar.sign"
+#KERNEL_D="linux-${KERNEL}"
 ADRES_KERNELA_PLIKI="https://cdn.kernel.org/pub/linux/kernel/v5.x/sha256sums.asc"
 ADRES_KERNELA="https://cdn.kernel.org/pub/linux/kernel/v5.x/${wybor}"
+CONFIG="config/.config"
 }
 
 # Definicja funkcji 
@@ -78,6 +79,9 @@ function rdzenie() {
 
 
 function archlinux {
+	cd ..
+	echo "$CONFIG Konfig istnieje !!!"; cp $CONFIG $katalog;
+	cd $katalog
 	echo -e "\e[32m===========================================\e[0m"
 	echo -e "\e[32m=  Wgrywam domyślną konfigurację kernela  =\e[0m"
 	echo -e "\e[32m===========================================\e[0m"
