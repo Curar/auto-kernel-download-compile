@@ -177,6 +177,7 @@ function debian() {
 	echo -e "\e[32m============================\e[0m"
 	sleep 3	
 	make -j`nproc` bindeb-pkg
+	cd ..
 }
 
 function ubuntu() {
@@ -196,6 +197,7 @@ function ubuntu() {
 	echo -e "\e[32m============================\e[0m"
 	sleep 3	
 	make -j`nproc` bindeb-pkg
+	cd ..
 }
 
 function kompilacja() {
