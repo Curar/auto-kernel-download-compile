@@ -75,7 +75,7 @@ function rodzaje_kompilacji() {
 		  "localyesconfig") make localyesconfig;;		  
 		  "localmodconfig") make localmodconfig;;
 		  "tinyconfig") make tinyconfig;;
-		  "R-A-K-I-E-T-K-A") cd .. && cp $CONFIG $katalog && cd $katalog;;
+		  "R-A-K-I-E-T-K-A") cd .. && pwd && cp $CONFIG $katalog && cd $katalog;;
 		  "WYJŚCIE") exit 1;;
 	  	  *) echo "Brak wyboru"
 	  esac
@@ -102,7 +102,6 @@ function rdzenie() {
 
 function archlinux {
 	cd ..
-	#echo "$CONFIG Konfig istnieje !!!"; cp $CONFIG $katalog;
 	cd $katalog
 	echo -e "\e[32m===========================================\e[0m"
 	echo -e "\e[32m=  Wgrywam domyślną konfigurację kernela  =\e[0m"
