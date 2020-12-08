@@ -64,7 +64,7 @@ done
 }
 
 function rodzaje_kompilacji() {
-	echo -e "\e[33mJaką przeprowadzamy kąpilację : ?\e[0m"
+	echo -e "\e[33mHow we configure the kernel : ?\e[0m"
 	select kompilacja in allnoconfig defconfig allyesconfig allmodconfig localyesconfig localmodconfig tinyconfig R-A-K-I-E-T-K-A WYJŚCIE
 	do
 	  case "$kompilacja" in
@@ -160,17 +160,17 @@ EOF
 function debian() {
 	pwd
 	sleep 3
-	rodzaje_kompilacji;
-	echo -e "\e[33mCzy wejść w opcje konfiguracyjne kernela (make menuconfig)\e[0m"
+	rodzaje_kompilacji;	
+	echo -e "\e[33mWhether to enter kernel configuration mode (make menuconfig)\e[0m"
 	read -r -p "Press Y or N" wybory	
 		if [[ "$wybory" =~ ^([yY][eE][sS]|[yY])$ ]]; then {
 		make menuconfig
-		} else {
-		echo -e "\e[33mKontynuuje z domyślną konfiguracją\e[0m"
+		} else {		
+		echo -e "\e[33mI am continuing my earlier choice\e[0m"
 		} fi
 	make clean
 	echo -e "\e[32m============================\e[0m"
-	echo -e "\e[32m=  Rozpoczynam kompilację  =\e[0m"
+	echo -e "\e[32m=   Starting compilation   =\e[0m"
 	echo -e "\e[32m============================\e[0m"
 	sleep 3	
 	make -j`nproc` bindeb-pkg
@@ -181,16 +181,16 @@ function ubuntu() {
 	pwd
 	sleep 3	
 	rodzaje_kompilacji;
-	echo -e "\e[33mCzy wejść w opcje konfiguracyjne kernela (make menuconfig)\e[0m"
+	echo -e "\e[33mWhether to enter kernel configuration mode (make menuconfig)\e[0m"
 	read -r -p "Press Y or N" wybory	
 		if [[ "$wybory" =~ ^([yY][eE][sS]|[yY])$ ]]; then {
 		make menuconfig
 		} else {
-		echo -e "\e[33mKontynuuje z domyślną konfiguracją\e[0m"
+		echo -e "\e[33mI am continuing my earlier choice\e[0m"
 		} fi
 	make clean
 	echo -e "\e[32m============================\e[0m"
-	echo -e "\e[32m=  Rozpoczynam kompilację  =\e[0m"
+	echo -e "\e[32m=   Starting compilation   =\e[0m"
 	echo -e "\e[32m============================\e[0m"
 	sleep 3	
 	make -j`nproc` bindeb-pkg
@@ -207,7 +207,7 @@ function kompilacja() {
 	katalog=`echo $wybor | sed -n '/\.tar.xz$/s///p'` 
 	echo $katalog
 	cd $katalog
-	echo -e "\e[33mJaką masz dystrybucję : ?\e[0m"
+	echo -e "\e[33mWhat is your linux distribution : ?\e[0m"
 	select ARCH in Archlinux Debian Ubuntu WYJŚCIE
 	do
 	  case "$ARCH" in
