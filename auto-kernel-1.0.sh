@@ -105,17 +105,17 @@ function archlinux {
 	cd $katalog
 	pwd
 	sleep 2	
-	rodzaje_kompilacji;
-	echo -e "\e[33mCzy wejść w opcje konfiguracyjne kernela (make menuconfig)\e[0m"
+	rodzaje_kompilacji;	
+	echo -e "\e[33mWhether to enter kernel configuration mode (make menuconfig)\e[0m"
 	read -r -p "Press Y or N" wybory	
 		if [[ "$wybory" =~ ^([yY][eE][sS]|[yY])$ ]]; then {
 		make menuconfig
-		} else {
-		echo -e "\e[33mKontynuuje z domyślną konfiguracją\e[0m"
+		} else {	
+		echo -e "\e[33mI am continuing my earlier choice\e[0m"
 		} fi
 	make clean
 	echo -e "\e[32m============================\e[0m"
-	echo -e "\e[32m=  Rozpoczynam kompilację  =\e[0m"
+	echo -e "\e[32m=   Starting compilation   =\e[0m"
 	echo -e "\e[32m============================\e[0m"
 	sleep 3	
 	make -j $RDZENIE
