@@ -51,7 +51,7 @@ CONFIG="config/.config"
 function polecenia() {
 echo -e "\e[33mI will check if you have the appropriate programs in the system\e[0m"
 sleep 2
-for program in pahole which sudo rsync sed patch make m4 gzip groff grep gettext gcc flex file fakeroot bison bc automake autoconf; do
+for program in curl pahole which sudo rsync sed patch make m4 gzip groff grep gettext gcc flex file fakeroot bison bc automake autoconf; do
       	printf '%-10s' "$program"
   if hash "$program" 2>/dev/null; then
     echo -e "\e[32m- It is installed\e[0m"
@@ -103,11 +103,8 @@ function rdzenie() {
 function archlinux {
 	cd ..
 	cd $katalog
-	echo -e "\e[32m===========================================\e[0m"
-	echo -e "\e[32m=  Wgrywam domyślną konfigurację kernela  =\e[0m"
-	echo -e "\e[32m===========================================\e[0m"
 	pwd
-	sleep 3	
+	sleep 2	
 	rodzaje_kompilacji;
 	echo -e "\e[33mCzy wejść w opcje konfiguracyjne kernela (make menuconfig)\e[0m"
 	read -r -p "Press Y or N" wybory	
