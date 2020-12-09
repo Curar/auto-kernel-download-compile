@@ -106,7 +106,7 @@ function archlinux {
 	echo -e "\e[33mWhether to enter kernel configuration mode (make menuconfig)\e[0m"
 	read -r -p "Press Y or N" wybory	
 		if [[ "$wybory" =~ ^([yY][eE][sS]|[yY])$ ]]; then {
-		make menuconfig
+		konfiguracja;
 		} else {	
 		echo -e "\e[33mI am continuing my earlier choice\e[0m"
 		} fi
@@ -161,7 +161,7 @@ function debian() {
 	echo -e "\e[33mWhether to enter kernel configuration mode (make menuconfig)\e[0m"
 	read -r -p "Press Y or N" wybory	
 		if [[ "$wybory" =~ ^([yY][eE][sS]|[yY])$ ]]; then {
-		make menuconfig
+		konfiguracja;
 		} else {		
 		echo -e "\e[33mI am continuing my earlier choice\e[0m"
 		} fi
@@ -174,6 +174,21 @@ function debian() {
 	cd ..
 }
 
+function konfiguracja() {
+	echo -e "\e[33mKernel custom configure : ?\e[0m"
+	select kompilacja in config menuconfig nconfig WYJŚCIE
+	do
+	  case "$kompilacja" in
+		  "config") make config;;
+		  "menuconfig") make menuconfig;;
+  		  "nconfig") make nconfig;;
+		  "WYJŚCIE") exit 1;;
+	  	  *) echo "Brak wyboru"
+	  esac
+	break
+	done
+}
+
 function ubuntu() {
 	pwd
 	sleep 3	
@@ -181,7 +196,7 @@ function ubuntu() {
 	echo -e "\e[33mWhether to enter kernel configuration mode (make menuconfig)\e[0m"
 	read -r -p "Press Y or N" wybory	
 		if [[ "$wybory" =~ ^([yY][eE][sS]|[yY])$ ]]; then {
-		make menuconfig
+		konfiguracja;
 		} else {
 		echo -e "\e[33mI am continuing my earlier choice\e[0m"
 		} fi
