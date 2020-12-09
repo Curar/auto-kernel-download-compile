@@ -39,9 +39,6 @@ clear
 # Definicja zmiennych
 function zmienne() {
 numer=""
-#KERNEL_EXIST="linux-${KERNEL}.tar.xz"
-#KERNEL_SIGN="linux-${KERNEL}.tar.sign"
-#KERNEL_D="linux-${KERNEL}"
 ADRES_KERNELA_PLIKI="https://cdn.kernel.org/pub/linux/kernel/v5.x/sha256sums.asc"
 ADRES_KERNELA="https://cdn.kernel.org/pub/linux/kernel/v5.x/${wybor}"
 CONFIG="config/.config"
