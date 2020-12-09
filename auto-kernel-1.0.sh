@@ -212,7 +212,7 @@ function ubuntu() {
 function kompilacja() {
 	rdzenie;
 	if [ ! -d $wybor ]; then {
-		tar xavf $wybor
+		xz -cd $wybor | tar xvf -
 	} else {
 	echo ""
 	} fi
