@@ -5,7 +5,7 @@
 #### Turning on :
 `./auto-kernel-1.0.sh`
 #### Below are screenshots from terminal showing the script operation :
-[![asciicast](https://asciinema.org/a/Bm4QUz4LnAKQWsD4guTcMua9x.svg)](https://asciinema.org/a/Bm4QUz4LnAKQWsD4guTcMua9x)
+[![asciicast][![asciicast](https://asciinema.org/a/04t6W1cm5vhqPkmFgAL8Iw0UM.svg)](https://asciinema.org/a/04t6W1cm5vhqPkmFgAL8Iw0UM)
 ####
 ![Terminal1](/image/terminal-1.png)
 ![Terminal2](/image/terminal-2.png)
