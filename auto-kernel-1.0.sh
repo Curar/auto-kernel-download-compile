@@ -254,7 +254,8 @@ function kompilacja() {
 		curl --compressed -o kernele.asc $ADRES_KERNELA_PLIKI
 		clear
 		echo -e "\e[32m${tablica_logo["0"]}\e[0m"
-		grep -o "linux-[0-9]\+.[0-9]\+.[0-9]\+.tar.xz" kernele.asc > kernele.txt	
+		grep -o "linux-[[:digit:]]\+.[[:digit:]]\+.[[:digit:]]\+.tar.xz" kernele.asc > kernele.txt	
+		grep -o "linux-[[:digit:]]\+.[[:digit:]]\+.tar.xz" kernele.asc >> kernele.txt	
 		sort -V kernele.txt > kernele-sort.txt
 		readarray -t menu < kernele-sort.txt
 		echo $ADRES_KERNELA
@@ -318,8 +319,9 @@ function kompilacja() {
 			zmienne;		
 			curl --compressed -o kernele.asc $ADRES_KERNELA_PLIKI
 			clear
-			echo -e "\e[32m${tablica_logo["0"]}\e[0m"
-			grep -o "linux-[0-9]\+.[0-9]\+.[0-9]\+.tar.xz" kernele.asc > kernele.txt	
+			echo -e "\e[32m${tablica_logo["0"]}\e[0m"	
+			grep -o "linux-[[:digit:]]\+.[[:digit:]]\+.[[:digit:]]\+.tar.xz" kernele.asc > kernele.txt	
+			grep -o "linux-[[:digit:]]\+.[[:digit:]]\+.tar.xz" kernele.asc >> kernele.txt	
 			sort -V kernele.txt > kernele-sort.txt
 			readarray -t menu < kernele-sort.txt
 			echo $ADRES_KERNELA
@@ -380,7 +382,7 @@ function kompilacja() {
 			;;
             		"Checking exist kernel source")
 			zmienne;	
-			while [[ ! $numer =~ [5].[0-9] ]]; do
+			while [[ ! $numer =~ [[:digit:]].[[:digit:]] ]]; do
 				echo "Podaj numer wersji gałęzi kernela którą mam sprawdzić np. 5.9"
     				read numer
 			done
