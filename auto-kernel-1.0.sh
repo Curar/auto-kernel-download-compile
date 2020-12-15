@@ -148,7 +148,7 @@ EOF
 				cd ..
 				clear
 			;;
-			*) echo "Brak wyboru"
+			*) echo "No choice !"
 		esac
 		break
 	done
@@ -183,7 +183,7 @@ function konfiguracja() {
 		  "menuconfig") make menuconfig;;
   		  "nconfig") make nconfig;;
 		  "WYJŚCIE") exit 1;;
-	  	  *) echo "Brak wyboru"
+	  	  *) echo "No choice !"
 	  esac
 	break
 	done
@@ -227,7 +227,7 @@ function kompilacja() {
 		"Debian") debian;;
 		"Ubuntu") ubuntu;;
 	  	"WYJŚCIE") exit 1;;
-	  	*) echo "Brak wyboru"
+	  	*) echo "No choice !"
 	  esac
 	break
 	done
@@ -383,29 +383,29 @@ function kompilacja() {
             		"Checking exist kernel source")
 			zmienne;	
 			while [[ ! $numer =~ [[:digit:]].[[:digit:]] ]]; do
-				echo "Podaj numer wersji gałęzi kernela którą mam sprawdzić np. 5.9"
+				echo "Enter the version number to be checkedi np. 5.9 :"
     				read numer
 			done
 			curl --compressed --progress-bar -o kernele.asc $ADRES_KERNELA_PLIKI
 			awk '/linux-'$numer'.tar.xz/' kernele.asc > linux-$numer.txt
 			if [[ ! `grep linux-$numer linux-$numer.txt` ]]; then {
-				echo "Brak kerneli na stronie https://kernel.org !"
+				echo "No kernel on websites !!! https://kernel.org !"
 			} else {
-				echo -e "\e[33mKernel istnieje\e[0m"
+				echo -e "\e[33mKernel not exist !!!\e[0m"
 				cat linux-$numer.txt
-				echo -e "\e[33mZ tej gałęzi dostępne są również kernele:\e[0m"
+				echo -e "\e[33mAvaliable kernel's :\e[0m"
 				awk '/linux-'$numer'[^a-z]+.tar.xz/' kernele.asc > linux-$numer.txt
 				sort -n -t "." -k 3 linux-$numer.txt | more
-				echo -e "\e[33mDostępne łaty:\e[0m"
+				echo -e "\e[33mAvaliable patch's :\e[0m"
 				awk '/patch-'$numer'[^a-z]+.xz/' kernele.asc > patch-$numer.txt
 				sort -n -t "." -k 3 patch-$numer.txt | more
-				echo -e "\e[33mWyniki zapisałem w plikach:"
+				echo -e "\e[33mSaved results :"
 				echo -e "\e[32mlinux-$numer.txt\e[0m"
 				echo -e "\e[32mpatch-$numer.txt\e[0m"
 				read -p "Press ENTER"
 				clear
 			} fi
-			echo "Zakończyłem sprawdzanie"
+			echo "I have finished !!!"
 		;;
 		"Exit")
 			clear
