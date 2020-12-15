@@ -140,7 +140,7 @@ EOF
 				sudo mkinitcpio -p $katalog
 				sudo grub-mkconfig -o /boot/grub/grub.cfg
 
-				echo "Zakończyłem wgrywanie do katalogu /boot"
+				echo "Finish ..."
 				cd ..
 				sleep 3
 			;;
@@ -391,7 +391,7 @@ function kompilacja() {
 			if [[ ! `grep linux-$numer linux-$numer.txt` ]]; then {
 				echo "No kernel on websites !!! https://kernel.org !"
 			} else {
-				echo -e "\e[33mKernel not exist !!!\e[0m"
+				echo -e "\e[33mKernel exist :\e[0m"
 				cat linux-$numer.txt
 				echo -e "\e[33mAvaliable kernel's :\e[0m"
 				awk '/linux-'$numer'[^a-z]+.tar.xz/' kernele.asc > linux-$numer.txt
