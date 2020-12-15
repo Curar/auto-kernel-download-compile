@@ -29,6 +29,25 @@ tablica_logo["0"]="
      ...::: KERNEL AUTO DOWNLOAD'S AND COMPILATION :::...       
 ==============================================================
 "
+
+
+
+
+
+
+tablica_rakietka["0"]="
+ ██▀███   ▄▄▄       ██ ▄█▀ ██▓▓█████▄▄▄█████▓ ██ ▄█▀▄▄▄
+ ▓██ ▒ ██▒▒████▄     ██▄█▒ ▓██▒▓█   ▀▓  ██▒ ▓▒ ██▄█▒▒████▄
+ ▓██ ░▄█ ▒▒██  ▀█▄  ▓███▄░ ▒██▒▒███  ▒ ▓██░ ▒░▓███▄░▒██  ▀█▄ 
+ ▒██▀▀█▄  ░██▄▄▄▄██ ▓██ █▄ ░██░▒▓█  ▄░ ▓██▓ ░ ▓██ █▄░██▄▄▄▄██
+ ░██▓ ▒██▒ ▓█   ▓██▒▒██▒ █▄░██░░▒████▒ ▒██▒ ░ ▒██▒ █▄▓█   ▓██▒
+░ ▒▓ ░▒▓░ ▒▒   ▓▒█░▒ ▒▒ ▓▒░▓  ░░ ▒░ ░ ▒ ░░   ▒ ▒▒ ▓▒▒▒   ▓▒█░
+ ░▒ ░ ▒░  ▒   ▒▒ ░░ ░▒ ▒░ ▒ ░ ░ ░  ░   ░    ░ ░▒ ▒░ ▒   ▒▒ ░
+ ░░   ░   ░   ▒   ░ ░░ ░  ▒ ░   ░    ░      ░ ░░ ░  ░   ▒   
+ ░           ░  ░░  ░    ░     ░  ░        ░  ░        ░  ░
+"
+
+
 echo -e "\e[33m${tablica_info["0"]}\e[0m"
 echo -e "\e[32m${tablica_logo["0"]}\e[0m"
 echo -e "\e[33mHELLOW\e[0m"
@@ -72,7 +91,7 @@ function rodzaje_kompilacji() {
 		  "localyesconfig") make localyesconfig;;		  
 		  "localmodconfig") make localmodconfig;;
 		  "tinyconfig") make tinyconfig;;
-		  "R-A-K-I-E-T-K-A") cd .. && pwd && cp $CONFIG $katalog && cd $katalog;;
+		  "R-A-K-I-E-T-K-A") echo -e "\e[32m${tablica_rakietka["0"]}\e[0m" && cd .. && pwd && cp $CONFIG $katalog && cd $katalog;;
 		  "WYJŚCIE") exit 1;;
 	  	  *) echo "Brak wyboru"
 	  esac
@@ -122,6 +141,8 @@ function archlinux {
 	do
 		case $opcja in
 			"Wgraj kernela")
+				pwd
+				sleep 2
 				sudo make modules_install
 				sudo cp -v arch/x86_64/boot/bzImage /boot/vmlinuz-$katalog
 				
