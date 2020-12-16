@@ -29,12 +29,6 @@ tablica_logo["0"]="
      ...::: KERNEL AUTO DOWNLOAD'S AND COMPILATION :::...       
 ==============================================================
 "
-
-
-
-
-
-
 tablica_rakietka["0"]="
  ██▀███   ▄▄▄       ██ ▄█▀ ██▓▓█████▄▄▄█████▓ ██ ▄█▀▄▄▄
  ▓██ ▒ ██▒▒████▄     ██▄█▒ ▓██▒▓█   ▀▓  ██▒ ▓▒ ██▄█▒▒████▄
@@ -80,6 +74,9 @@ done
 }
 
 function rodzaje_kompilacji() {
+	echo -e "\e[33mApply kernel to Salt :\e[0m"
+	read;
+	SALT=${REPLY}
 	echo -e "\e[33mHow we configure the kernel : ?\e[0m"
 	select kompilacja in allnoconfig defconfig allyesconfig allmodconfig localyesconfig localmodconfig tinyconfig R-A-K-I-E-T-K-A WYJŚCIE
 	do
