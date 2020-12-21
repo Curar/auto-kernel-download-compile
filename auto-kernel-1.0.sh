@@ -88,7 +88,7 @@ function rodzaje_kompilacji() {
 		  "localyesconfig") make localyesconfig;;		  
 		  "localmodconfig") make localmodconfig;;
 		  "tinyconfig") make tinyconfig;;
-		  "R-A-K-I-E-T-K-A") echo -e "\e[32m${tablica_rakietka["0"]}\e[0m" && cd .. && pwd && cp $CONFIG $katalog && cd $katalog;;
+		  "R-A-K-I-E-T-K-A") echo -e "\e[32m${tablica_rakietka["0"]}\e[0m" && cd .. && pwd && cp $CONFIG $katalog && cd $katalog && scripts/config --set-str CONFIG_BUILD_SALT "$SALT";;
 		  "WYJŚCIE") exit 1;;
 	  	  *) echo "Brak wyboru"
 	  esac
