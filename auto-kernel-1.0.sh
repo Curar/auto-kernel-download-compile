@@ -118,15 +118,18 @@ function rdzenie() {
 
 function linux-next() {
 if [[ -d linux-next ]]; then 
-pwd
 pauza;
 wybor="linux-next"
 cd linux-next
-rodzaje_kompilacji;
+pwd
+make menuconfig
 make -j $RDZENIE
 else 
 git clone https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
 cd linux-next
+pwd
+make menuconfig
+make -j $RDZENIE
 fi
 }
 
