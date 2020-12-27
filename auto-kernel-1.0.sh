@@ -52,8 +52,8 @@ clear
 # Definicja zmiennych
 function zmienne() {
 numer=""
-ADRES_KERNELA_PLIKI="https://cdn.kernel.org/pub/linux/kernel/v5.x/sha256sums.asc"
-ADRES_KERNELA="https://cdn.kernel.org/pub/linux/kernel/v5.x/${wybor}"
+ADRES_KERNELA_PLIKI="https://mirrors.edge.kernel.org/pub/linux/kernel/v5.x/sha256sums.asc"
+ADRES_KERNELA="https://mirrors.edge.kernel.org/pub/linux/kernel/v5.x/${wybor}"
 CONFIG="config/.config"
 }
 
@@ -116,8 +116,18 @@ function rdzenie() {
 	fi
 }
 
+function linux-next() {
+if [ ! -d linux-next ]; then 
+pwd
+pauza;
+kompilacja;
+rodzaje_kompilacji;
+else 
+git clone https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
+fi
+}
 
-function archlinux {
+function archlinux() {
 	cd ..
 	cd $katalog
 	pwd
@@ -265,6 +275,7 @@ function kompilacja() {
 	opcje_wyboru=(
 		"Download kernel source" 
 		"Download and compile kernel source" 
+		"Compile linux-next"
 		"Checking exist kernel source"
 		"Exit"
 	)
@@ -401,6 +412,9 @@ function kompilacja() {
 			kompilacja;
 			read -p "Press ENTER"
 			clear
+			;;
+			"Compile linux-next")
+			linux-next;
 			;;
             		"Checking exist kernel source")
 			zmienne;	
