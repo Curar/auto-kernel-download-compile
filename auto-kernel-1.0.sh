@@ -117,13 +117,16 @@ function rdzenie() {
 }
 
 function linux-next() {
-if [ ! -d linux-next ]; then 
+if [[ -d linux-next ]]; then 
 pwd
 pauza;
-kompilacja;
+wybor="linux-next"
+cd linux-next
 rodzaje_kompilacji;
+make -j $RDZENIE
 else 
 git clone https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
+cd linux-next
 fi
 }
 
@@ -242,6 +245,7 @@ function ubuntu() {
 }
 
 function kompilacja() {
+	#unset wybor;
 	rdzenie;
 	if [ ! -d $wybor ]; then {
 		xz -cd $wybor | tar xvf -
