@@ -117,6 +117,7 @@ function rdzenie() {
 }
 
 function linux-next() {
+polecenia;
 if [[ -d linux-next ]]; then 
 pauza;
 wybor="linux-next"
