@@ -123,6 +123,7 @@ pauza;
 wybor="linux-next"
 cd linux-next
 pwd
+git pull
 make menuconfig
 make clean
 make -j $RDZENIE
@@ -131,6 +132,7 @@ else
 git clone https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
 cd linux-next
 pwd
+git pull
 make menuconfig
 make clean
 make -j $RDZENIE
