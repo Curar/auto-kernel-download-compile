@@ -80,7 +80,10 @@ cd .. && cd $katalog && scripts/config --set-str CONFIG_BUILD_SALT "$SALT" && ec
 function rodzaje_kompilacji() {
 	echo -e "\e[33mApply kernel to Salt :\e[0m"
 	read;
-	SALT="${REPLY}"
+	SALT="${REPLY}"	
+	katalog=`echo $wybor | sed -n '/\.tar.xz$/s///p'`
+       	echo $katalog
+	pauza;	
 	echo -e "\e[33mHow we configure the kernel : ?\e[0m"
 	select kompilacja in allnoconfig defconfig allyesconfig allmodconfig localyesconfig localmodconfig tinyconfig R-A-K-I-E-T-K-A WYJŚCIE
 	do
@@ -92,7 +95,7 @@ function rodzaje_kompilacji() {
 		  "localyesconfig") make localyesconfig && sol;;		  
 		  "localmodconfig") make localmodconfig && sol;;
 		  "tinyconfig") make tinyconfig && sol;;
-		  "R-A-K-I-E-T-K-A") echo -e "\e[32m${tablica_rakietka["0"]}\e[0m" && pwd && cp $CONFIG $katalog && cd $katalog && scripts/config --set-str CONFIG_BUILD_SALT "$SALT" && echo $SALT;;
+		  "R-A-K-I-E-T-K-A") echo -e "\e[32m${tablica_rakietka["0"]}\e[0m" && pwd cd .. && cp ~/kernel/auto-kernel-download-compile/config/.config ~/kernel/auto-kernel-download-compile/$katalog && scripts/config --set-str CONFIG_BUILD_SALT "$SALT" && echo $SALT;;
 		  "WYJŚCIE") exit 1;;
 	  	  *) echo "Brak wyboru"
 	  esac
