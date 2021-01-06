@@ -121,18 +121,21 @@ function rdzenie() {
 }
 
 function linux-next() {
+zmienne;
 polecenia;
 if [[ -d linux-next ]]; then 
 pauza;
 wybor="linux-next"
 cd linux-next
 pwd
+echo $CONFIG
 git pull
-pwd
-cp ~/kernel/auto-kernel-download-compile/config/.config ~/kernel/auto-kernel-download-compile/linux-next/.config
 echo "Podaj sol"
 read
 SALT="${REPLY}"
+cd ..
+cp config/.config linux-next
+cd linux-next
 scripts/config --set-str CONFIG_BUILD_SALT "$SALT" && echo $SALT
 make menuconfig
 make clean
@@ -143,10 +146,14 @@ git clone https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
 cd linux-next
 pwd
 git pull
-cp ~/kernel/auto-kernel-download-compile/config/.config ~/kernel/auto-kernel-download-compile/linux-next/.config
 echo "Podaj sol"
 read
 SALT="${REPLY}"
+cd ..
+cp config/.config linux-next
+cd linux-next
+scripts/config --set-str CONFIG_BUILD_SALT "$SALT" && echo $SALT
+make menuconfig
 make menuconfig
 make clean
 make -j $RDZENIE
