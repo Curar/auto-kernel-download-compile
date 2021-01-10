@@ -156,7 +156,7 @@ cd linux-next
 scripts/config --set-str CONFIG_BUILD_SALT "$SALT" && echo $SALT
 make menuconfig
 make clean
-make -j 10
+make -j $RDZENIE
 pauza;
 fi
 }
