@@ -98,8 +98,8 @@ function rodzaje_kompilacji() {
 		  "localyesconfig") make localyesconfig && sol;;		  
 		  "localmodconfig") make localmodconfig && sol;;
 		  "tinyconfig") make tinyconfig && sol;; 
-		  "rakietka-2021") pwd && pauza && pwd && pauza && cd .. && pwd && cp -r $CONFIG1 $katalog/.config && cd $katalog && scripts/config --set-str CONFIG_BUILD_SALT "$SALT" && echo $SALT;;
-		  "test-curar") pwd && pauza && pwd && pauza && cd .. && pwd && cp -r $CONFIG2 $katalog/.config && cd $katalog && scripts/config --set-str CONFIG_BUILD_SALT "$SALT" && echo $SALT;;
+		  "rakietka-2021") pwd && pauza && cd .. && pwd && cp -r $CONFIG1 $katalog/.config && cd $katalog && scripts/config --set-str CONFIG_BUILD_SALT "$SALT" && echo $SALT;;
+		  "test-curar") pwd && pauza && cd .. && pwd && cp -r $CONFIG2 $katalog/.config && cd $katalog && scripts/config --set-str CONFIG_BUILD_SALT "$SALT" && echo $SALT;;
 		  "WYJŚCIE") exit 1;;
 	  	  *) echo "Brak wyboru"
 	  esac
