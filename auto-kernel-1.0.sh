@@ -54,7 +54,8 @@ function zmienne() {
 numer=""
 ADRES_KERNELA_PLIKI="https://mirrors.edge.kernel.org/pub/linux/kernel/v5.x/sha256sums.asc"
 ADRES_KERNELA="https://mirrors.edge.kernel.org/pub/linux/kernel/v5.x/${wybor}"
-CONFIG="config/.config"
+CONFIG1="config/.config"
+CONFIG2="config/testowy-5.10.6.conf"
 }
 
 # Definicja funkcji 
@@ -78,6 +79,7 @@ cd .. && cd $katalog && scripts/config --set-str CONFIG_BUILD_SALT "$SALT" && ec
 }
 
 function rodzaje_kompilacji() {
+	zmienne;
 	echo -e "\e[33mApply kernel to Salt :\e[0m"
 	read;
 	SALT="${REPLY}"	
@@ -86,7 +88,7 @@ function rodzaje_kompilacji() {
 	pwd
 	pauza;	
 	echo -e "\e[33mHow we configure the kernel : ?\e[0m"
-	select kompilacja in allnoconfig defconfig allyesconfig allmodconfig localyesconfig localmodconfig tinyconfig R-A-K-I-E-T-K-A WYJŚCIE
+	select kompilacja in allnoconfig defconfig allyesconfig allmodconfig localyesconfig localmodconfig tinyconfig rakietka-2021 test-curar WYJŚCIE
 	do
 	  case "$kompilacja" in
 		  "allnoconfig") make allnoconfig && sol;;
@@ -95,8 +97,9 @@ function rodzaje_kompilacji() {
 		  "allmodconfig") make allmodconfig && sol;;
 		  "localyesconfig") make localyesconfig && sol;;		  
 		  "localmodconfig") make localmodconfig && sol;;
-		  "tinyconfig") make tinyconfig && sol;;
-		  "R-A-K-I-E-T-K-A") echo -e "\e[32m${tablica_rakietka["0"]}\e[0m" && cd .. && pwd && pauza && cp $CONFIG $katalog && cd $katalog && scripts/config --set-str CONFIG_BUILD_SALT "$SALT" && echo $SALT;;
+		  "tinyconfig") make tinyconfig && sol;; 
+		  "rakietka-2021") pwd && pauza && pwd && pauza && cd .. && pwd && cp -r $CONFIG1 $katalog/.config && cd $katalog && scripts/config --set-str CONFIG_BUILD_SALT "$SALT" && echo $SALT;;
+		  "test-curar") pwd && pauza && pwd && pauza && cd .. && pwd && cp -r $CONFIG2 $katalog/.config && cd $katalog && scripts/config --set-str CONFIG_BUILD_SALT "$SALT" && echo $SALT;;
 		  "WYJŚCIE") exit 1;;
 	  	  *) echo "Brak wyboru"
 	  esac
