@@ -55,7 +55,8 @@ numer=""
 ADRES_KERNELA_PLIKI="https://mirrors.edge.kernel.org/pub/linux/kernel/v5.x/sha256sums.asc"
 ADRES_KERNELA="https://mirrors.edge.kernel.org/pub/linux/kernel/v5.x/${wybor}"
 CONFIG1="config/.config"
-CONFIG2="config/testowy-5.10.6.conf"
+CONFIG2="config/config-test"
+RDZENIE=`getconf _NPROCESSORS_ONLN`
 }
 
 # Definicja funkcji 
