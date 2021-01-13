@@ -191,7 +191,7 @@ function archlinux() {
 			"Wgraj kernela")
 				pwd
 				sleep 2
-				sudo make modules_install
+				sudo make -j $RDZENIE modules_install
 				sudo cp -v arch/x86_64/boot/bzImage /boot/vmlinuz-$katalog
 				
 
