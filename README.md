@@ -10,3 +10,6 @@
 ![Terminal3](/image/terminal-3.png)
 ![Terminal4](/image/terminal-4.png)
 ![Terminal5](/image/terminal-5.png)
+![Terminal6](/image/terminal-6.png)
+![Terminal7](/image/terminal-7.png)
+![Terminal8](/image/terminal-8.png)
