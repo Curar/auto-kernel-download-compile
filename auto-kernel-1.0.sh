@@ -56,6 +56,8 @@ ADRES_KERNELA_PLIKI="https://mirrors.edge.kernel.org/pub/linux/kernel/v5.x/sha25
 ADRES_KERNELA="https://mirrors.edge.kernel.org/pub/linux/kernel/v5.x/${wybor}"
 CONFIG1="config/.config"
 CONFIG2="config/config-test"
+CONFIG3="config/linux-rc"
+CONFIG4="config/linux-next"
 RDZENIE=`getconf _NPROCESSORS_ONLN`
 }
 
