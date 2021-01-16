@@ -81,6 +81,35 @@ function sol() {
 cd .. && cd $katalog && scripts/config --set-str CONFIG_BUILD_SALT "$SALT" && echo $SALT
 }
 
+function rodzaje_kompilacji-next() {
+	zmienne;
+	echo -e "\e[33mApply kernel to Salt :\e[0m"
+	read;
+	SALT="${REPLY}"	
+	katalog="linux-next"
+       	echo $katalog
+	pwd
+	pauza;	
+	echo -e "\e[33mHow we configure the kernel : ?\e[0m"
+	select kompilacja in allnoconfig defconfig allyesconfig allmodconfig localyesconfig localmodconfig tinyconfig rakietka-2021 test-curar WYJŚCIE
+	do
+	  case "$kompilacja" in
+		  "allnoconfig") make allnoconfig && sol;;
+		  "defconfig") make defconfig && sol;;
+  		  "allyesconfig") make allyesconfig && sol;;
+		  "allmodconfig") make allmodconfig && sol;;
+		  "localyesconfig") make localyesconfig && sol;;		  
+		  "localmodconfig") make localmodconfig && sol;;
+		  "tinyconfig") make tinyconfig && sol;; 
+		  "rakietka-2021") pwd && pauza && cd .. && pwd && cp -r $CONFIG1 $katalog/.config && cd $katalog && scripts/config --set-str CONFIG_BUILD_SALT "$SALT" && echo $SALT;;
+		  "test-curar") pwd && pauza && cd .. && pwd && cp -r $CONFIG2 $katalog/.config && cd $katalog && scripts/config --set-str CONFIG_BUILD_SALT "$SALT" && echo $SALT;;
+		  "WYJŚCIE") exit 1;;
+	  	  *) echo "Brak wyboru"
+	  esac
+	break
+	done
+}
+
 function rodzaje_kompilacji() {
 	zmienne;
 	echo -e "\e[33mApply kernel to Salt :\e[0m"
@@ -159,6 +188,7 @@ SALT="${REPLY}"
 cd ..
 cp config/.config linux-next
 cd linux-next
+rodzaje_kompilacji-next;
 scripts/config --set-str CONFIG_BUILD_SALT "$SALT" && echo $SALT
 make menuconfig
 make clean
