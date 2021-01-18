@@ -371,7 +371,7 @@ function kompilacja() {
 		case "$wybor" in
 			"EXIT")
 			clear
-			exit 1
+			break
 			;;
 			*)
 			echo "You chose : $wybor"		
@@ -437,7 +437,7 @@ function kompilacja() {
 			case "$wybor" in
 			"EXIT")
 			clear
-			exit 1
+			break
 			;;
 			*)
 			echo "You chose : $wybor"		
@@ -476,11 +476,11 @@ function kompilacja() {
 			     echo -e "\e[33mKernel download: $wybor\e[0m"	
 			     sleep 2
                         } fi
-			;;
-			esac
+			;;	
+			esac	
+			kompilacja;
 			break
 			done
-			kompilacja;
 			read -p "Press ENTER"
 			clear
 			;;
