@@ -103,7 +103,7 @@ function rodzaje_kompilacji-next() {
 		  "tinyconfig") make tinyconfig && sol;; 
 		  "rakietka-2021") pwd && pauza && cd .. && pwd && cp -r $CONFIG1 $katalog/.config && cd $katalog && scripts/config --set-str CONFIG_BUILD_SALT "$SALT" && echo $SALT;;
 		  "test-curar") pwd && pauza && cd .. && pwd && cp -r $CONFIG2 $katalog/.config && cd $katalog && scripts/config --set-str CONFIG_BUILD_SALT "$SALT" && echo $SALT;;
-		  "WYJŚCIE") exit 1;;
+		  "WYJŚCIE") break;;
 	  	  *) echo "Brak wyboru"
 	  esac
 	break
@@ -132,7 +132,7 @@ function rodzaje_kompilacji() {
 		  "tinyconfig") make tinyconfig && sol;; 
 		  "rakietka-2021") pwd && pauza && cd .. && pwd && cp -r $CONFIG1 $katalog/.config && cd $katalog && scripts/config --set-str CONFIG_BUILD_SALT "$SALT" && echo $SALT;;
 		  "test-curar") pwd && pauza && cd .. && pwd && cp -r $CONFIG2 $katalog/.config && cd $katalog && scripts/config --set-str CONFIG_BUILD_SALT "$SALT" && echo $SALT;;
-		  "WYJŚCIE") exit 1;;
+		  "WYJŚCIE") break;;
 	  	  *) echo "Brak wyboru"
 	  esac
 	break
@@ -166,6 +166,8 @@ cd linux-next
 pwd
 echo $CONFIG
 git pull
+tag=$(git describe --tags `git rev-list --tags --max-count=1`)
+git checkout $tag -b latest
 echo "Podaj sól :"
 read
 SALT="${REPLY}"
@@ -284,7 +286,7 @@ function konfiguracja() {
 		  "config") make config;;
 		  "menuconfig") make menuconfig;;
   		  "nconfig") make nconfig;;
-		  "WYJŚCIE") exit 1;;
+		  "WYJŚCIE") break;;
 	  	  *) echo "No choice !"
 	  esac
 	break
@@ -329,7 +331,7 @@ function kompilacja() {
 	  	"Archlinux") archlinux;;
 		"Debian") debian;;
 		"Ubuntu") ubuntu;;
-	  	"WYJŚCIE") exit 1;;
+	  	"WYJŚCIE") break;;
 	  	*) echo "No choice !"
 	  esac
 	break
@@ -460,7 +462,8 @@ function kompilacja() {
                                     		echo -e "\e[32m============================\e[0m"	
                                    	 	sleep 2
 						echo -e "\e[33mKernel download: $wybor\e[0m"	
-                                		} else {
+                                		kompilacja;
+						} else {
     		                        	echo "Signature problem : $wybor"
                                 		} fi
                             	}
@@ -475,10 +478,10 @@ function kompilacja() {
 	                     echo -e "\e[32m====================================\e[0m"
 			     echo -e "\e[33mKernel download: $wybor\e[0m"	
 			     sleep 2
+			     kompilacja;
                         } fi
 			;;	
 			esac	
-			kompilacja;
 			break
 			done
 			read -p "Press ENTER"
