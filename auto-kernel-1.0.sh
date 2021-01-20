@@ -103,7 +103,7 @@ function rodzaje_kompilacji-next() {
 		  "tinyconfig") make tinyconfig && sol;; 
 		  "rakietka-2021") pwd && pauza && cd .. && pwd && cp -r $CONFIG1 $katalog/.config && cd $katalog && scripts/config --set-str CONFIG_BUILD_SALT "$SALT" && echo $SALT;;
 		  "test-curar") pwd && pauza && cd .. && pwd && cp -r $CONFIG2 $katalog/.config && cd $katalog && scripts/config --set-str CONFIG_BUILD_SALT "$SALT" && echo $SALT;;
-		  "WYJŚCIE") break;;
+		  "WYJŚCIE") exit 1;;
 	  	  *) echo "Brak wyboru"
 	  esac
 	break
@@ -132,7 +132,7 @@ function rodzaje_kompilacji() {
 		  "tinyconfig") make tinyconfig && sol;; 
 		  "rakietka-2021") pwd && pauza && cd .. && pwd && cp -r $CONFIG1 $katalog/.config && cd $katalog && scripts/config --set-str CONFIG_BUILD_SALT "$SALT" && echo $SALT;;
 		  "test-curar") pwd && pauza && cd .. && pwd && cp -r $CONFIG2 $katalog/.config && cd $katalog && scripts/config --set-str CONFIG_BUILD_SALT "$SALT" && echo $SALT;;
-		  "WYJŚCIE") break;;
+		  "WYJŚCIE") exit 1;;
 	  	  *) echo "Brak wyboru"
 	  esac
 	break
@@ -164,8 +164,7 @@ pauza;
 wybor="linux-next"
 cd linux-next
 pwd
-echo $CONFIG
-git pull
+git pull --rebase
 tag=$(git describe --tags `git rev-list --tags --max-count=1`)
 git checkout $tag -b latest
 echo "Podaj sól :"
@@ -181,6 +180,9 @@ make -j $RDZENIE
 pauza;
 else 
 git clone https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
+git pull
+tag=$(git describe --tags `git rev-list --tags --max-count=1`)
+git checkout $tag -b latest
 cd linux-next
 pwd
 git pull
