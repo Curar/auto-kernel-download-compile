@@ -65,7 +65,7 @@ RDZENIE=`getconf _NPROCESSORS_ONLN`
 function polecenia_download() {
 echo -e "\e[33mI will check if you have the appropriate programs in the system\e[0m"
 sleep 2
-for program in curl pahole which sudo rsync sed patch make m4 gzip groff grep gettext gcc flex file fakeroot bison bc automake autoconf; do
+for program in curl gpg; do
       	printf '%-10s' "$program"
   if hash "$program" 2>/dev/null; then
     echo -e "\e[32m- It is installed\e[0m"
