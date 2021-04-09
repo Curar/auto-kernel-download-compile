@@ -62,6 +62,25 @@ RDZENIE=`getconf _NPROCESSORS_ONLN`
 }
 
 # Definicja funkcji 
+function polecenia_download() {
+echo -e "\e[33mI will check if you have the appropriate programs in the system\e[0m"
+sleep 2
+for program in curl pahole which sudo rsync sed patch make m4 gzip groff grep gettext gcc flex file fakeroot bison bc automake autoconf; do
+      	printf '%-10s' "$program"
+  if hash "$program" 2>/dev/null; then
+    echo -e "\e[32m- It is installed\e[0m"
+    sleep 0.1 
+ else
+    echo -e "\e[31m- It is not installed\e[0m"
+    sleep 0.1
+    echo "======================================================"
+    echo -e "\e[31m STOP !!! - Must have installed packet\e[0m"
+    echo "======================================================"
+    exit 1
+  fi
+done
+}
+
 function polecenia() {
 echo -e "\e[33mI will check if you have the appropriate programs in the system\e[0m"
 sleep 2
@@ -362,7 +381,8 @@ function kompilacja() {
 	do
 		case $opcja in
 		"Download kernel source") 		
-		zmienne;		
+		zmienne;
+		polecenia_download;
 		curl --compressed -o kernele.asc $ADRES_KERNELA_PLIKI
 		clear
 		echo -e "\e[32m${tablica_logo["0"]}\e[0m"
