@@ -73,6 +73,10 @@ for program in curl pahole which sudo rsync sed patch make m4 gzip groff grep ge
  else
     echo -e "\e[31m- It is not installed\e[0m"
     sleep 0.1
+    echo "======================================================"
+    echo -e "\e[31m STOP !!! - Must have installed packet\e[0m"
+    echo "======================================================"
+    exit 1
   fi
 done
 }
