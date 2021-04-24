@@ -62,6 +62,28 @@ RDZENIE=`getconf _NPROCESSORS_ONLN`
 }
 
 # Definicja funkcji 
+function wykryj_dystrybucje() {
+if grep -qi Arch /etc/issue
+        then
+                echo -e "\e[32mI detected that we are using Arch Linux\e[0m"
+                elif grep -qi Debian /etc/issue
+        then
+                echo -e "\e[32mI detected that we are using Debian\e[0m"
+                echo "================================================================================================================================================="
+                echo -e "\e[32mPlease install : apt install build-essential linux-source bc kmod cpio flex libncurses5-dev libelf-dev libssl-dev dwarves rsync automake \e[0m"
+                echo "================================================================================================================================================="
+        elif grep -qi Fedora /etc/issue
+        then
+                echo -e "\e[32mI detected that we are using Fedora\e[0m"
+        elif grep -qi Gentoo /etc/issue
+        then
+                echo -e "\e[32mI detected that we are using Gentoo\e[0m"
+        else
+                echo -e "\e[32mI detected thet we are using `cat /etc/os-release`\e[0m"
+fi
+sleep 3
+}
+
 function polecenia_download() {
 echo -e "\e[33mI will check if you have the appropriate programs in the system\e[0m"
 sleep 2
@@ -95,6 +117,7 @@ for program in curl pahole which sudo rsync sed patch make m4 gzip groff grep ge
     echo "======================================================"
     echo -e "\e[31m STOP !!! - Must have installed packet\e[0m"
     echo "======================================================"
+    wykryj_dystrybucje;
     exit 1
   fi
 done
