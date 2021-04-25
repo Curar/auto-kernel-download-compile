@@ -394,6 +394,7 @@ function kompilacja() {
 	echo -e "\e[32m${tablica_logo["0"]}\e[0m"
 	echo -e "\e[32mWhat should I do :\e[0m"
 	opcje_wyboru=(
+		"Download kernel patch"
 		"Download kernel source" 
 		"Download and compile kernel source" 
 		"Compile linux-next"
@@ -403,6 +404,57 @@ function kompilacja() {
 	select opcja in "${opcje_wyboru[@]}"
 	do
 		case $opcja in
+		"Download kernel patch")
+                zmienne;
+                polecenia_download;
+                curl --compressed -o kernele.asc $ADRES_KERNELA_PLIKI
+                clear
+                echo -e "\e[32m${tablica_logo["0"]}\e[0m"
+                grep -o "patch-[[:digit:]]\+.[[:digit:]]\+.[[:digit:]]\+.xz" kernele.asc > patch.txt
+                grep -o "patch-[[:digit:]]\+.[[:digit:]]\+.xz" kernele.asc >> patch.txt
+                sort -V patch.txt > patch-sort.txt
+                readarray -t menu < patch-sort.txt
+                echo $ADRES_KERNELA
+                for i in "${!menu[@]}"; do
+                        menu_list[$i]="${menu[$i]%% *}"
+                done
+                echo -e "\e[32mChoose a patch :\e[0m"
+                select wybor in "${menu_list[@]}" "EXIT"; do
+                case "$wybor" in
+                        "EXIT")
+                        clear
+                        break
+                        ;;
+                        *)
+                        echo "You chose : $wybor"
+                        zmienne;
+                        echo "$ADRES_KERNELA"
+                        if [ ! -f "$wybor" ] && [ ! -f "$KERNEL_SIGN" ]; then {
+                                if curl --output /dev/null --silent --head --fail "$ADRES_KERNELA"; then {
+                                        echo -e "\e[32m Patch exists : $ADRES_KERNELA , download :\e[0m"
+                                        curl --compressed --progress-bar -o "$wybor" "$ADRES_KERNELA"
+                                        read -p "Press ENTER"
+                                        clear
+                                }
+                                else {
+                                     echo "Patch not exist : $ADRES_KERNELA"
+                                     sleep 2
+                                } fi
+                        }
+                        else {
+                             echo -e "\e[32m====================================\e[0m"
+                             echo -e "\e[32m= The patch is already downloaded =\e[0m"
+                             echo -e "\e[32m====================================\e[0m"
+                             echo -e "\e[33mPatch download: $wybor\e[0m"
+                             sleep 2
+                        } fi
+                        ;;
+                        esac
+                        break
+                        done
+                        read -p "Press ENTER"
+                        clear
+                ;;
 		"Download kernel source") 		
 		zmienne;
 		polecenia_download;
